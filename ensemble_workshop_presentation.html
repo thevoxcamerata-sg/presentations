@@ -4,333 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ensemble Artistic Leadership Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reset.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/theme/white.css">
     <style>
         :root {
-            --primary: #1B2A3B;
-            --accent: #C0392B;
-            --warm: #E67E22;
-            --cool: #2980B9;
-            --green: #27AE60;
-            --purple: #8E44AD;
-            --light: #F7F5F0;
+            --ink:    #1C2733;
+            --ink-2:  #576473;
+            --ink-3:  #94A3B5;
+            --paper:  #FDFAF6;
+            --rule:   #E0D8CF;
+            --c1: #2A6049;
+            --c2: #1E4B7A;
+            --c3: #B85A1A;
+            --c4: #5B2D82;
+            --c5: #A3291F;
         }
 
         .reveal {
-            font-family: 'Georgia', serif;
+            font-family: 'Inter', sans-serif;
+            color: var(--ink);
+            background: var(--paper);
         }
 
-        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: var(--primary);
+        .reveal .slides section { text-align: center; }
+
+        .reveal h1, .reveal h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            color: var(--ink);
             text-transform: none;
-            font-weight: 600;
             letter-spacing: -0.3px;
         }
 
-        .reveal section {
-            text-align: center;
+        .reveal h1 { font-size: 2em; line-height: 1.2; }
+        .reveal h2 { font-size: 1.3em; line-height: 1.3; }
+
+        .reveal h3, .reveal h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: none;
+            color: var(--ink);
         }
 
-        /* Phase badge */
-        .phase-badge {
+        .reveal p { color: var(--ink-2); }
+        .reveal em { font-style: italic; }
+
+        /* Badge */
+        .badge {
             display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 4px 18px;
-            border-radius: 20px;
-            font-size: 0.48em;
-            font-family: Arial, sans-serif;
-            margin-bottom: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Questions box */
-        .q-box {
-            background: var(--light);
-            border-radius: 8px;
-            padding: 18px 20px;
-            text-align: left;
-        }
-
-        .q-box .q-label {
+            border: 1px solid currentColor;
+            border-radius: 3px;
+            padding: 3px 12px;
+            font-family: 'Inter', sans-serif;
             font-size: 0.42em;
-            text-transform: uppercase;
+            font-weight: 600;
             letter-spacing: 1.5px;
-            color: #999;
-            display: block;
-            margin-bottom: 10px;
-            font-family: Arial, sans-serif;
+            text-transform: uppercase;
+            margin-bottom: 18px;
         }
 
-        .q-box ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .q-box li {
-            font-size: 0.56em;
-            color: var(--primary);
-            padding: 7px 0;
-            border-bottom: 1px solid #E0DDD7;
-            line-height: 1.45;
-        }
-
-        .q-box li:last-child {
-            border-bottom: none;
-        }
-
-        .q-box li::before {
-            content: '→ ';
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        /* Activity card */
-        .a-card {
-            background: var(--light);
-            border-radius: 8px;
+        /* Card */
+        .card {
+            border: 1px solid var(--rule);
+            border-radius: 6px;
             padding: 16px 18px;
             text-align: left;
-            border-left: 4px solid var(--primary);
+            background: white;
         }
+        .card.c1 { border-left: 3px solid var(--c1); }
+        .card.c3 { border-left: 3px solid var(--c3); }
+        .card.c5 { border-left: 3px solid var(--c5); }
+        .card h4 { margin: 0 0 5px; font-size: 0.5em; color: var(--ink); }
+        .card p  { margin: 0; font-size: 0.47em; color: var(--ink-2); line-height: 1.55; }
 
-        .a-card h4 {
-            margin: 0 0 6px;
-            font-size: 0.52em;
-            color: var(--primary);
+        /* Q-box */
+        .qbox {
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            padding: 16px 18px;
+            text-align: left;
+            background: white;
         }
-
-        .a-card p {
-            margin: 0;
-            font-size: 0.5em;
-            color: #555;
-            line-height: 1.5;
+        .ql {
+            font-size: 0.39em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            display: block;
+            margin-bottom: 10px;
         }
+        .qbox ul { list-style: none; margin: 0; padding: 0; }
+        .qbox li {
+            font-size: 0.53em;
+            color: var(--ink);
+            padding: 7px 0;
+            border-bottom: 1px solid var(--rule);
+            line-height: 1.45;
+        }
+        .qbox li:last-child { border-bottom: none; }
+        .qbox li::before { content: '→ '; color: var(--ink-3); }
 
         /* Decision spectrum */
-        .decision-spectrum {
-            display: flex;
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 16px 0 6px;
-        }
-
-        .dt {
-            flex: 1;
-            padding: 18px 12px;
-            text-align: center;
-            color: white;
-        }
-
-        .dt.collective   { background: #27AE60; }
-        .dt.consultative { background: #2980B9; }
-        .dt.delegated    { background: #E67E22; }
-        .dt.director     { background: #C0392B; }
-
-        .dt h4 {
+        .spectrum { display: flex; border-radius: 6px; overflow: hidden; margin: 14px 0 6px; }
+        .sp-item { flex: 1; padding: 16px 10px; text-align: center; color: white; }
+        .sp-item h4 {
             color: white !important;
-            margin: 0 0 8px;
-            font-size: 0.6em;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.5em;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            margin: 0 0 7px;
         }
+        .sp-item p { font-size: 0.41em; margin: 0; opacity: 0.85; line-height: 1.4; color: white !important; }
 
-        .dt p {
-            font-size: 0.44em;
-            margin: 0;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .spectrum-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.4em;
-            color: #aaa;
-            font-family: Arial, sans-serif;
-            margin-bottom: 12px;
-        }
-
-        /* Script box */
-        .script-box {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 32px 36px;
-            text-align: left;
-        }
-
-        .script-box .s-label {
+        /* Script */
+        .script-wrap { text-align: left; max-width: 76%; margin: 0 auto; }
+        .open-q {
+            font-family: 'Playfair Display', serif;
+            font-size: 5em;
+            color: rgba(255,255,255,0.1);
+            line-height: 1;
+            margin-bottom: -24px;
             display: block;
-            color: rgba(255,255,255,0.4);
-            font-size: 0.42em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 14px;
-            font-family: Arial, sans-serif;
         }
-
-        .script-box p {
-            color: rgba(255,255,255,0.9) !important;
-            font-size: 0.72em;
-            line-height: 1.75;
+        .script-wrap p {
+            font-family: 'Playfair Display', Georgia, serif;
             font-style: italic;
+            font-size: 0.76em;
+            color: rgba(255,255,255,0.88) !important;
+            line-height: 1.82;
             margin: 0;
+        }
+        .s-label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.38em;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.28);
+            margin-top: 22px;
         }
 
         /* Objectives */
-        .obj-item {
-            display: flex;
-            align-items: flex-start;
-            padding: 14px 0;
-            border-bottom: 1px solid #E8E4DE;
-            gap: 16px;
-            text-align: left;
-        }
-
-        .obj-item:last-child { border-bottom: none; }
-
-        .obj-num {
-            background: var(--primary);
-            color: white;
-            min-width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.55em;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
-        .obj-text {
-            font-size: 0.62em;
-            color: var(--primary);
-            line-height: 1.5;
-            padding-top: 4px;
-        }
+        .obj { display: flex; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--rule); gap: 16px; text-align: left; }
+        .obj:last-child { border-bottom: none; }
+        .obj-n { font-family: 'Playfair Display', serif; font-size: 1.1em; color: var(--ink-3); flex-shrink: 0; width: 22px; text-align: right; padding-top: 2px; }
+        .obj-t { font-size: 0.6em; color: var(--ink); line-height: 1.55; padding-top: 2px; }
 
         /* Timeline */
-        .tl-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 5px 0;
+        .tl { display: flex; align-items: center; gap: 13px; padding: 4px 0; }
+        .tl-t {
+            color: white; padding: 4px 11px; border-radius: 3px;
+            font-size: 0.39em; font-family: 'Inter', sans-serif;
+            font-weight: 700; min-width: 48px; text-align: right;
         }
+        .tl-l { font-size: 0.55em; color: var(--ink); text-align: left; }
 
-        .tl-time {
-            color: white;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.42em;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            min-width: 52px;
-            text-align: right;
-        }
-
-        .tl-label {
-            font-size: 0.58em;
-            color: var(--primary);
-            text-align: left;
-        }
-
-        /* Examples grid */
-        .eg-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            text-align: left;
-        }
-
-        .eg-item {
-            background: var(--light);
-            border-radius: 6px;
-            padding: 10px 14px;
-        }
-
-        .eg-item strong {
-            display: block;
-            font-size: 0.48em;
-            color: var(--primary);
-            font-family: Arial, sans-serif;
-            margin-bottom: 2px;
-        }
-
-        .eg-item span {
-            font-size: 0.44em;
-            color: #777;
-        }
+        /* Examples */
+        .eg { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; text-align: left; }
+        .eg-i { background: white; border: 1px solid var(--rule); border-radius: 5px; padding: 9px 12px; }
+        .eg-i strong { display: block; font-size: 0.46em; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+        .eg-i span   { font-size: 0.42em; color: var(--ink-2); }
 
         /* Fist to five */
-        .f2f {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 16px 0;
-        }
+        .f2f { display: flex; gap: 6px; justify-content: center; margin: 14px 0; }
+        .f2fi { flex: 1; border: 1px solid var(--rule); border-radius: 6px; padding: 11px 5px 8px; text-align: center; background: white; }
+        .f2fi .hand { font-size: 1.25em; display: block; margin-bottom: 4px; }
+        .f2fi .fl { font-size: 0.39em; font-family: 'Inter', sans-serif; font-weight: 700; color: var(--ink); display: block; }
+        .f2fi .fd { font-size: 0.37em; color: var(--ink-3); display: block; margin-top: 3px; }
 
-        .f2f-item {
-            background: var(--light);
-            border-radius: 8px;
-            padding: 12px 8px;
-            flex: 1;
-            text-align: center;
-        }
+        /* Icebreaker card */
+        .ibcard { border: 1px solid var(--rule); border-radius: 6px; padding: 16px 14px; text-align: center; background: white; }
+        .ibcard .ib-ico { font-size: 1.4em; display: block; margin-bottom: 7px; }
+        .ibcard h4 { margin: 0 0 5px; font-size: 0.5em; font-weight: 700; color: var(--ink); }
+        .ibcard p  { margin: 0; font-size: 0.43em; color: var(--ink-2); line-height: 1.45; }
 
-        .f2f-item .hand {
-            font-size: 1.4em;
-            display: block;
-            margin-bottom: 4px;
-        }
+        /* Think row */
+        .think-r { display: flex; align-items: center; gap: 12px; background: white; border: 1px solid var(--rule); border-radius: 6px; padding: 13px 17px; text-align: left; }
+        .think-tag { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.48em; font-family: 'Inter', sans-serif; font-weight: 700; color: white; flex-shrink: 0; }
+        .think-r p { font-size: 0.54em; margin: 0; color: var(--ink); }
 
-        .f2f-item .f-label {
-            font-size: 0.42em;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            color: var(--primary);
-            display: block;
-        }
+        /* Worksheet slide */
+        .wsf { background: white; border: 1px solid var(--rule); border-radius: 6px; padding: 13px 15px; text-align: left; }
+        .wsl { font-size: 0.37em; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-3); display: block; margin-bottom: 6px; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .ws-line { border-bottom: 1px solid var(--rule); padding: 10px 0; }
 
-        .f2f-item .f-desc {
-            font-size: 0.38em;
-            color: #888;
-            display: block;
-            margin-top: 3px;
-        }
-
-        /* Worksheet */
-        .ws-field {
-            background: white;
-            border-radius: 8px;
-            padding: 16px 18px;
-            border: 1px solid #E0DDD7;
-            text-align: left;
-        }
-
-        .ws-field .ws-label {
-            font-size: 0.4em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #999;
-            display: block;
-            margin-bottom: 6px;
-            font-family: Arial, sans-serif;
-        }
-
-        .ws-line {
-            border-bottom: 1px solid #DDD;
-            padding: 13px 0;
-        }
+        /* Thin rule */
+        .rule { width: 40px; height: 1px; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -339,409 +205,233 @@
 
 
 <!-- ─── TITLE ─── -->
-<section data-background-color="#1B2A3B">
-    <h1 style="color:white; font-size:2em; margin-bottom:14px; line-height:1.2;">Ensemble Artistic<br>Leadership Workshop</h1>
-    <p style="color:rgba(255,255,255,0.55); font-size:0.68em;">Co-designing a shared process for artistic decision-making</p>
-    <p style="color:rgba(255,255,255,0.3); font-size:0.44em; margin-top:56px; font-family:Arial,sans-serif; letter-spacing:1px; text-transform:uppercase;">~70 minutes &nbsp;·&nbsp; 5 phases</p>
-    <aside class="notes">
-        Welcome everyone. This workshop is not about deciding everything permanently — it is about agreeing on HOW we want to make artistic decisions together. Keep the energy low-pressure from the start.
-    </aside>
+<section data-background-color="#1C2733">
+    <div class="rule" style="background:rgba(255,255,255,0.2); margin-bottom:28px;"></div>
+    <h1 style="color:white; font-weight:400; font-size:2.2em; margin-bottom:18px;">Ensemble Artistic<br>Leadership Workshop</h1>
+    <div class="rule" style="background:rgba(255,255,255,0.12); margin-bottom:16px;"></div>
+    <p style="color:rgba(255,255,255,0.42); font-size:0.57em; font-family:'Inter',sans-serif;">Co-designing a shared process for artistic decision-making</p>
+    <p style="color:rgba(255,255,255,0.18); font-size:0.37em; margin-top:62px; font-family:'Inter',sans-serif; letter-spacing:2.5px; text-transform:uppercase;">~90 minutes &nbsp;·&nbsp; icebreaker + 5 phases</p>
+    <aside class="notes">Welcome everyone. This workshop is not about deciding everything permanently — it is about agreeing on HOW we want to make artistic decisions together. Keep the energy low-pressure from the start.</aside>
 </section>
 
 
 <!-- ─── ICEBREAKER INTRO ─── -->
-<section>
-    <div class="phase-badge">Icebreaker &nbsp;·&nbsp; 20 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:20px;">Two Truths and a Lie</h2>
-    <div style="max-width:76%; margin:0 auto;">
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:20px;">
-            <div style="background:var(--light); border-radius:8px; padding:18px 14px; text-align:center;">
-                <div style="font-size:1.6em; margin-bottom:8px;">✌️</div>
-                <div style="font-size:0.52em; font-family:Arial,sans-serif; font-weight:700; color:var(--primary); margin-bottom:4px;">Two truths</div>
-                <div style="font-size:0.44em; color:#777; line-height:1.4;">Two things about yourself that are actually true</div>
-            </div>
-            <div style="background:var(--light); border-radius:8px; padding:18px 14px; text-align:center;">
-                <div style="font-size:1.6em; margin-bottom:8px;">🤥</div>
-                <div style="font-size:0.52em; font-family:Arial,sans-serif; font-weight:700; color:var(--primary); margin-bottom:4px;">One lie</div>
-                <div style="font-size:0.44em; color:#777; line-height:1.4;">One thing that sounds plausible but isn't true</div>
-            </div>
-            <div style="background:var(--light); border-radius:8px; padding:18px 14px; text-align:center;">
-                <div style="font-size:1.6em; margin-bottom:8px;">🤔</div>
-                <div style="font-size:0.52em; font-family:Arial,sans-serif; font-weight:700; color:var(--primary); margin-bottom:4px;">The group guesses</div>
-                <div style="font-size:0.44em; color:#777; line-height:1.4;">Everyone decides which one is the lie before you reveal it</div>
-            </div>
-        </div>
-        <p style="font-size:0.54em; color:#888; font-family:Arial,sans-serif;">The more believable your lie, the better.</p>
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--ink); border-color:var(--rule);">Icebreaker &nbsp;·&nbsp; 20 min</div>
+    <h2 style="margin-bottom:22px;">Two Truths and a Lie</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; max-width:84%; margin:0 auto 16px;">
+        <div class="ibcard"><span class="ib-ico">✌️</span><h4>Two truths</h4><p>Two things about yourself that are genuinely true</p></div>
+        <div class="ibcard"><span class="ib-ico">🤥</span><h4>One lie</h4><p>One thing that sounds plausible but isn't true</p></div>
+        <div class="ibcard"><span class="ib-ico">🤔</span><h4>The group guesses</h4><p>Everyone decides which one is the lie before you reveal it</p></div>
     </div>
-    <aside class="notes">
-        10 participants × ~2 min each = 20 min. Keep it moving — once the group guesses, reveal and move on. Don't let any one person run past 2 min.
-        The lie doesn't need to be clever. The fun is in the group arguing about which one it is.
-        You go first to model it and set the tone — pick statements that aren't too personal.
-    </aside>
+    <p style="font-size:0.48em; color:var(--ink-3); font-family:'Inter',sans-serif;">The more believable your lie, the better.</p>
+    <aside class="notes">10 participants × ~2 min each = 20 min. Keep it moving — once the group guesses, reveal and move on. Don't let any one person run past 2 min. You go first to model it and set the tone — pick statements that aren't too personal.</aside>
 </section>
 
 
 <!-- ─── ICEBREAKER THINK ─── -->
-<section data-background-color="#F7F5F0">
-    <div class="phase-badge" style="background:#555;">Think &nbsp;·&nbsp; 3 min</div>
-    <h2 style="font-size:1.4em; margin-bottom:28px; color:var(--primary);">Prepare your three statements</h2>
-    <div style="max-width:65%; margin:0 auto; display:flex; flex-direction:column; gap:12px;">
-        <div style="background:white; border-radius:8px; padding:18px 22px; text-align:left; border:1px solid #E0DDD7; display:flex; align-items:center; gap:14px;">
-            <div style="background:#27AE60; color:white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:0.55em; font-family:Arial; font-weight:700; flex-shrink:0;">T</div>
-            <div style="font-size:0.6em; color:#555;">Truth &nbsp;—&nbsp; something true about you</div>
-        </div>
-        <div style="background:white; border-radius:8px; padding:18px 22px; text-align:left; border:1px solid #E0DDD7; display:flex; align-items:center; gap:14px;">
-            <div style="background:#27AE60; color:white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:0.55em; font-family:Arial; font-weight:700; flex-shrink:0;">T</div>
-            <div style="font-size:0.6em; color:#555;">Truth &nbsp;—&nbsp; another true thing about you</div>
-        </div>
-        <div style="background:white; border-radius:8px; padding:18px 22px; text-align:left; border:1px solid #E0DDD7; display:flex; align-items:center; gap:14px;">
-            <div style="background:#C0392B; color:white; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:0.55em; font-family:Arial; font-weight:700; flex-shrink:0;">L</div>
-            <div style="font-size:0.6em; color:#555;">Lie &nbsp;—&nbsp; something false that sounds plausible</div>
-        </div>
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--ink-3); border-color:var(--rule);">Think &nbsp;·&nbsp; 3 min</div>
+    <h2 style="margin-bottom:24px;">Prepare your three statements</h2>
+    <div style="max-width:60%; margin:0 auto; display:flex; flex-direction:column; gap:9px;">
+        <div class="think-r"><div class="think-tag" style="background:var(--c1);">T</div><p>Truth — something true about you</p></div>
+        <div class="think-r"><div class="think-tag" style="background:var(--c1);">T</div><p>Truth — another true thing about you</p></div>
+        <div class="think-r"><div class="think-tag" style="background:var(--c5);">L</div><p>Lie — something false that sounds plausible</p></div>
     </div>
-    <p style="font-size:0.5em; color:#aaa; margin-top:22px; font-family:Arial,sans-serif;">Mix up the order — don't always put the lie last.</p>
-    <aside class="notes">
-        Give everyone 3 minutes of quiet thinking time. No sharing yet.
-        Prompt them to write it down so they don't forget their order.
-        While they think, decide your own three and go first.
-    </aside>
+    <p style="font-size:0.44em; color:var(--ink-3); margin-top:20px; font-family:'Inter',sans-serif;">Mix up the order — don't always put the lie last.</p>
+    <aside class="notes">Give everyone 3 minutes of quiet thinking time. No sharing yet. Prompt them to write it down so they don't forget their order. While they think, decide your own three and go first.</aside>
 </section>
 
 
 <!-- ─── ICEBREAKER SHARE ─── -->
-<section data-background-color="#1B2A3B">
-    <h2 style="color:white; font-size:1.5em; margin-bottom:16px;">Your turn</h2>
-    <p style="color:rgba(255,255,255,0.6); font-size:0.72em; margin-bottom:40px;">Share your three statements &nbsp;—&nbsp; the group will guess the lie.</p>
-    <div style="display:flex; justify-content:center; gap:16px; margin-bottom:40px;">
-        <div style="background:rgba(255,255,255,0.08); border-radius:8px; padding:14px 28px; color:white; font-size:0.55em; font-family:Arial,sans-serif;">
-            <span style="opacity:0.5; display:block; margin-bottom:4px; font-size:0.85em; text-transform:uppercase; letter-spacing:1px;">After each person</span>
-            Everyone votes, then they reveal
-        </div>
+<section data-background-color="#1C2733">
+    <h2 style="color:white; font-size:1.7em; font-weight:400; margin-bottom:14px;">Your turn.</h2>
+    <p style="color:rgba(255,255,255,0.45); font-size:0.62em; font-family:'Inter',sans-serif; margin-bottom:44px;">Share your three statements — the group will guess the lie.</p>
+    <div style="display:inline-block; border:1px solid rgba(255,255,255,0.1); border-radius:5px; padding:11px 26px; margin-bottom:40px;">
+        <p style="color:rgba(255,255,255,0.55); font-size:0.48em; font-family:'Inter',sans-serif; margin:0;">After each person: vote first, then they reveal</p>
     </div>
-    <p style="color:rgba(255,255,255,0.3); font-size:0.44em; font-family:Arial,sans-serif; letter-spacing:1px; text-transform:uppercase;">10 people &nbsp;·&nbsp; ~2 min each</p>
-    <aside class="notes">
-        Keep this slide up the whole time people are sharing.
-        Prompt the group to vote before the person reveals — ask "hands up for statement 1 being the lie? Statement 2? Statement 3?" then let them reveal.
-        Keep energy high. React genuinely. If someone's lie fools everyone, make a moment of it.
-        When the last person is done, move straight to the next slide.
-    </aside>
+    <p style="color:rgba(255,255,255,0.18); font-size:0.38em; font-family:'Inter',sans-serif; letter-spacing:2px; text-transform:uppercase;">10 people &nbsp;·&nbsp; ~2 min each</p>
+    <aside class="notes">Keep this slide up the whole time people are sharing. Prompt the group to vote before the person reveals. Keep energy high. React genuinely. When the last person is done, move straight to the next slide.</aside>
 </section>
 
 
 <!-- ─── ICEBREAKER TRANSITION ─── -->
-<section>
-    <h2 style="font-size:1.3em; margin-bottom:20px;">Now we know each other a little.</h2>
-    <p style="font-size:0.65em; color:#777; max-width:65%; margin:0 auto 32px; line-height:1.6;">The rest of today is about building something together &nbsp;—&nbsp; a shared way of making artistic decisions as an ensemble.</p>
-    <div style="display:inline-block; background:var(--light); border-radius:8px; padding:14px 28px;">
-        <p style="font-size:0.52em; color:var(--primary); margin:0; font-family:Arial,sans-serif;">Up next &nbsp;→&nbsp; <strong>Workshop introduction</strong></p>
+<section data-background-color="#FDFAF6">
+    <h2 style="font-size:1.45em; font-weight:400; margin-bottom:16px;">Now we know each other<br>a little.</h2>
+    <div class="rule" style="background:var(--rule); margin-bottom:16px;"></div>
+    <p style="font-size:0.58em; color:var(--ink-2); max-width:58%; margin:0 auto 30px; line-height:1.7; font-family:'Inter',sans-serif;">The rest of today is about building something together — a shared way of making artistic decisions as an ensemble.</p>
+    <div style="display:inline-block; border:1px solid var(--rule); border-radius:4px; padding:9px 22px; background:white;">
+        <p style="font-size:0.47em; color:var(--ink); margin:0; font-family:'Inter',sans-serif; font-weight:500;">Up next &nbsp;→&nbsp; Workshop introduction</p>
     </div>
-    <aside class="notes">
-        Brief pause here. Let the energy settle from the icebreaker before moving into workshop mode.
-        You can say: "Great. Now we know each other a little — let's use that to build something."
-        Then move straight into the opening script.
-    </aside>
+    <aside class="notes">Brief pause here. Let the energy settle from the icebreaker before moving into workshop mode. You can say: "Now let's use that to build something." Then move straight into the opening script.</aside>
 </section>
 
 
 <!-- ─── OPENING SCRIPT ─── -->
-<section data-background-color="#1B2A3B">
-    <div class="phase-badge" style="background:rgba(255,255,255,0.15);">Opening</div>
-    <h2 style="color:white; font-size:1.2em; margin-bottom:24px;">Before we begin</h2>
-    <div class="script-box">
+<section data-background-color="#1C2733">
+    <div class="badge" style="color:rgba(255,255,255,0.3); border-color:rgba(255,255,255,0.12);">Opening</div>
+    <div class="script-wrap">
+        <span class="open-q">"</span>
+        <p>Today is not about deciding everything permanently. It is about agreeing on how we want to make artistic decisions together, so that leadership is shared in a way that supports both trust and artistic quality.</p>
         <span class="s-label">Opening script</span>
-        <p>"Today is not about deciding everything permanently. It is about agreeing on how we want to make artistic decisions together, so that leadership is shared in a way that supports both trust and artistic quality."</p>
     </div>
-    <aside class="notes">
-        Deliver this slowly. Don't rush past it. If someone tries to solve an artistic question here, name it: "That's important — today we're designing how we'd answer that question, not answering it yet."
-    </aside>
+    <aside class="notes">Deliver slowly. Don't rush past it. If someone tries to solve an artistic question here, name it: "That's important — today we're designing how we'd answer that question, not answering it yet."</aside>
 </section>
 
 
 <!-- ─── OBJECTIVES ─── -->
-<section>
-    <h2 style="font-size:1.2em; margin-bottom:22px;">What we'll leave with</h2>
-    <div style="max-width:78%; margin:0 auto;">
-        <div class="obj-item">
-            <div class="obj-num">01</div>
-            <div class="obj-text">A shared definition of what democratized artistic leadership means in this ensemble</div>
-        </div>
-        <div class="obj-item">
-            <div class="obj-num">02</div>
-            <div class="obj-text">A working distinction between collective, consultative, delegated, and director-led decisions</div>
-        </div>
-        <div class="obj-item">
-            <div class="obj-num">03</div>
-            <div class="obj-text">A draft working process for making and reviewing artistic decisions</div>
-        </div>
+<section data-background-color="#FDFAF6">
+    <h2 style="margin-bottom:24px;">What we'll leave with</h2>
+    <div style="max-width:74%; margin:0 auto;">
+        <div class="obj"><div class="obj-n">01</div><div class="obj-t">A shared definition of what democratized artistic leadership means in this ensemble</div></div>
+        <div class="obj"><div class="obj-n">02</div><div class="obj-t">A working distinction between collective, consultative, delegated, and director-led decisions</div></div>
+        <div class="obj"><div class="obj-n">03</div><div class="obj-t">A draft working process for making and reviewing artistic decisions</div></div>
     </div>
-    <aside class="notes">
-        Keep this brief — don't read all three aloud in full. Say "three concrete things" and gesture to them. Move on within 60 seconds.
-    </aside>
+    <aside class="notes">Keep this brief — don't read all three aloud in full. Say "three concrete things" and gesture to them. Move on within 60 seconds.</aside>
 </section>
 
 
-<!-- ─── TIMELINE OVERVIEW ─── -->
-<section>
-    <h2 style="font-size:1.2em; margin-bottom:24px;">Today's shape</h2>
-    <div style="max-width:72%; margin:0 auto; display:flex; flex-direction:column; gap:9px;">
-        <div class="tl-row">
-            <div class="tl-time" style="background:#555;">20 min</div>
-            <div class="tl-label">Icebreaker &nbsp;—&nbsp; Two Truths and a Lie</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#1B2A3B;">10 min</div>
-            <div class="tl-label">Introduction: Purpose and framing</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#27AE60;">15 min</div>
-            <div class="tl-label">Activity 1 &nbsp;—&nbsp; Values mapping</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#2980B9;">15 min</div>
-            <div class="tl-label">Activity 2 &nbsp;—&nbsp; Define decision types</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#E67E22;">20 min</div>
-            <div class="tl-label">Activity 3 &nbsp;—&nbsp; Scenario testing</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#8E44AD;">15 min</div>
-            <div class="tl-label">Activity 4 &nbsp;—&nbsp; Consensus check</div>
-        </div>
-        <div class="tl-row">
-            <div class="tl-time" style="background:#C0392B;">10 min</div>
-            <div class="tl-label">Closing: Working agreement and next steps</div>
-        </div>
+<!-- ─── TIMELINE ─── -->
+<section data-background-color="#FDFAF6">
+    <h2 style="margin-bottom:26px;">Today's shape</h2>
+    <div style="max-width:66%; margin:0 auto; display:flex; flex-direction:column; gap:7px;">
+        <div class="tl"><div class="tl-t" style="background:#4A5568;">20 min</div><div class="tl-l">Icebreaker — Two Truths and a Lie</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--ink);">10 min</div><div class="tl-l">Introduction: Purpose and framing</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--c1);">15 min</div><div class="tl-l">Activity 1 — Values mapping</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--c2);">15 min</div><div class="tl-l">Activity 2 — Define decision types</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--c3);">20 min</div><div class="tl-l">Activity 3 — Scenario testing</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--c4);">15 min</div><div class="tl-l">Activity 4 — Consensus check</div></div>
+        <div class="tl"><div class="tl-t" style="background:var(--c5);">10 min</div><div class="tl-l">Closing: Working agreement and next steps</div></div>
     </div>
-    <aside class="notes">
-        Total on paper: 85 min. Trim Activity 3 (scenario testing) if time is tight — it's the most flexible. Don't cut the closing; that's where shared ownership gets locked in.
-    </aside>
+    <aside class="notes">Total ~105 min including icebreaker. Trim Activity 3 (scenario testing) if time is tight — it's the most flexible. Don't cut the closing.</aside>
 </section>
 
 
 <!-- ─── PHASE 1: INTRODUCTION ─── -->
-<section>
-    <div class="phase-badge">Phase 1 &nbsp;·&nbsp; 10 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:22px;">Introduction</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-        <div class="q-box">
-            <span class="q-label">Leading questions</span>
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--ink); border-color:var(--rule);">Phase 1 &nbsp;·&nbsp; 10 min</div>
+    <h2 style="margin-bottom:22px;">Introduction</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="qbox">
+            <span class="ql">Leading questions</span>
             <ul>
                 <li>What do we want this ensemble to feel like when leadership is working well?</li>
                 <li>What outcome should we leave with today?</li>
             </ul>
         </div>
-        <div class="q-box">
-            <span class="q-label">Watch for</span>
+        <div class="qbox">
+            <span class="ql">Watch for</span>
             <ul>
                 <li>Whether participants understand the difference between a <em>process discussion</em> and an <em>artistic decision</em></li>
-                <li>Readiness to engage and shared sense of purpose</li>
+                <li>Readiness to engage and a shared sense of purpose</li>
             </ul>
         </div>
     </div>
-    <aside class="notes">
-        The key distinction to establish here: process discussion ≠ artistic decision.
-        If someone jumps to repertoire or interpretation choices, gently redirect: "We'll get to that — this is about how we'd make that call together."
-        Don't let this phase run long. 10 minutes hard stop.
-    </aside>
+    <aside class="notes">KEY DISTINCTION to establish early: process discussion ≠ artistic decision. If someone jumps to repertoire or interpretation choices, gently redirect: "We'll get to that — this is about how we'd make that call together." 10 minutes hard stop.</aside>
 </section>
 
 
-<!-- ─── PHASE 2: VALUES MAPPING ─── -->
-<section>
-    <div class="phase-badge" style="background:#27AE60;">Activity 1 &nbsp;·&nbsp; 15 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:20px;">Values mapping</h2>
-    <div style="display:grid; grid-template-columns:3fr 2fr; gap:18px;">
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <div class="a-card" style="border-left-color:#27AE60;">
-                <h4>Step 1 &nbsp;(3 min)</h4>
-                <p>Each person writes 3 values they want the ensemble's artistic leadership to reflect.</p>
-            </div>
-            <div class="a-card" style="border-left-color:#27AE60;">
-                <h4>Step 2 &nbsp;(5 min)</h4>
-                <p>Share in pairs. Listen for overlap and tension.</p>
-            </div>
-            <div class="a-card" style="border-left-color:#27AE60;">
-                <h4>Step 3 &nbsp;(7 min)</h4>
-                <p>Plenary share-out. Record recurring themes on whiteboard or shared document.</p>
-            </div>
+<!-- ─── ACTIVITY 1: VALUES MAPPING ─── -->
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--c1); border-color:var(--c1);">Activity 1 &nbsp;·&nbsp; 15 min</div>
+    <h2 style="margin-bottom:20px;">Values mapping</h2>
+    <div style="display:grid; grid-template-columns:3fr 2fr; gap:14px;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="card c1"><h4>Step 1 &nbsp;(3 min)</h4><p>Each person writes 3 values they want the ensemble's artistic leadership to reflect.</p></div>
+            <div class="card c1"><h4>Step 2 &nbsp;(5 min)</h4><p>Share in pairs. Listen for overlap and tension.</p></div>
+            <div class="card c1"><h4>Step 3 &nbsp;(7 min)</h4><p>Plenary share-out. Record recurring themes on whiteboard or shared document.</p></div>
         </div>
-        <div class="q-box">
-            <span class="q-label">Ask</span>
+        <div class="qbox">
+            <span class="ql">Ask</span>
             <ul>
                 <li>Which values must be protected in how we make artistic decisions?</li>
                 <li>Which values feel non-negotiable?</li>
             </ul>
         </div>
     </div>
-    <aside class="notes">
-        Common values that come up: trust, artistic excellence, fairness, flexibility, accountability, courage.
-        WATCH FOR tensions — e.g. speed vs. fairness, artistic vision vs. collective voice. Name these rather than smoothing them over. They are the most useful material in the room.
-        Don't force consensus at this stage. Record divergence, don't resolve it.
-    </aside>
+    <aside class="notes">Common values that come up: trust, artistic excellence, fairness, flexibility, accountability, courage. WATCH FOR tensions — e.g. speed vs. fairness, artistic vision vs. collective voice. Name these rather than smoothing them over. Don't force consensus at this stage.</aside>
 </section>
 
 
-<!-- ─── PHASE 3: DECISION TYPES ─── -->
-<section>
-    <div class="phase-badge" style="background:#2980B9;">Activity 2 &nbsp;·&nbsp; 15 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:16px;">Define decision types</h2>
-    <div class="decision-spectrum">
-        <div class="dt collective">
-            <h4>Collective</h4>
-            <p>Whole ensemble decides. Full input and consensus required.</p>
-        </div>
-        <div class="dt consultative">
-            <h4>Consultative</h4>
-            <p>Input gathered broadly. One person or small group decides.</p>
-        </div>
-        <div class="dt delegated">
-            <h4>Delegated</h4>
-            <p>Authority given to a section lead, role, or individual.</p>
-        </div>
-        <div class="dt director">
-            <h4>Director-led</h4>
-            <p>Director or appointed lead decides. Speed or expertise required.</p>
-        </div>
+<!-- ─── ACTIVITY 2: DECISION TYPES ─── -->
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--c2); border-color:var(--c2);">Activity 2 &nbsp;·&nbsp; 15 min</div>
+    <h2 style="margin-bottom:18px;">Define decision types</h2>
+    <div class="spectrum">
+        <div class="sp-item" style="background:var(--c1);"><h4>Collective</h4><p>Whole ensemble decides. Full input and consensus required.</p></div>
+        <div class="sp-item" style="background:var(--c2);"><h4>Consultative</h4><p>Input gathered broadly. One person or small group decides.</p></div>
+        <div class="sp-item" style="background:var(--c3);"><h4>Delegated</h4><p>Authority given to a section lead, role, or individual.</p></div>
+        <div class="sp-item" style="background:var(--c5);"><h4>Director-led</h4><p>Director or appointed lead decides. Speed or expertise required.</p></div>
     </div>
-    <div class="spectrum-labels">
-        <span>← Most shared ownership</span>
-        <span>Most directed →</span>
+    <div style="display:flex; justify-content:space-between; font-size:0.39em; color:var(--ink-3); font-family:'Inter',sans-serif; margin-bottom:12px;">
+        <span>← Most shared ownership</span><span>Most directed →</span>
     </div>
-    <p style="font-size:0.52em; color:#888; margin-top:10px;">Together: place common ensemble decisions into these four categories.</p>
-    <aside class="notes">
-        Goal isn't to assign every decision permanently — it's to practise the distinction.
-        Good productive tension: where does "interpretation" sit? Probably director-led in a single rehearsal but consultative across a project arc.
-        WATCH FOR: whether the group can separate process from content, and whether they can accept that not every decision needs full consensus.
-    </aside>
+    <p style="font-size:0.49em; color:var(--ink-3); font-family:'Inter',sans-serif;">Together: place common ensemble decisions into these four categories.</p>
+    <aside class="notes">Goal isn't to assign every decision permanently — it's to practise the distinction. Good productive tension: where does "interpretation" sit? Probably director-led in a single rehearsal but consultative across a project arc. WATCH FOR: whether the group can separate process from content.</aside>
 </section>
 
 
 <!-- ─── EXAMPLES TO SORT ─── -->
-<section>
-    <h2 style="font-size:1.15em; margin-bottom:18px;">Examples to sort</h2>
-    <div class="eg-grid">
-        <div class="eg-item">
-            <strong>Repertoire selection</strong>
-            <span>What pieces to perform, and why</span>
-        </div>
-        <div class="eg-item">
-            <strong>Programming order</strong>
-            <span>Sequence of works in a concert or set</span>
-        </div>
-        <div class="eg-item">
-            <strong>Interpretation</strong>
-            <span>Tempo, phrasing, dynamics, diction, style</span>
-        </div>
-        <div class="eg-item">
-            <strong>Ensemble roles</strong>
-            <span>Who leads sections or cues entries</span>
-        </div>
-        <div class="eg-item">
-            <strong>Rehearsal priorities</strong>
-            <span>What to focus on and what can wait</span>
-        </div>
-        <div class="eg-item">
-            <strong>Scheduling</strong>
-            <span>Rehearsal times, call times, deadlines</span>
-        </div>
-        <div class="eg-item">
-            <strong>Performance format</strong>
-            <span>Formation, staging, movement, use of space</span>
-        </div>
-        <div class="eg-item">
-            <strong>Communication norms</strong>
-            <span>How feedback is given and disagreement handled</span>
-        </div>
-        <div class="eg-item">
-            <strong>Membership</strong>
-            <span>Who joins, covers absences, substitutes</span>
-        </div>
-        <div class="eg-item">
-            <strong>Documentation</strong>
-            <span>Scores, notes, shared rehearsal records</span>
-        </div>
+<section data-background-color="#FDFAF6">
+    <h2 style="margin-bottom:18px;">Examples to sort</h2>
+    <div class="eg">
+        <div class="eg-i"><strong>Repertoire selection</strong><span>What pieces to perform, and why</span></div>
+        <div class="eg-i"><strong>Programming order</strong><span>Sequence of works in a concert or set</span></div>
+        <div class="eg-i"><strong>Interpretation</strong><span>Tempo, phrasing, dynamics, diction, style</span></div>
+        <div class="eg-i"><strong>Ensemble roles</strong><span>Who leads sections or cues entries</span></div>
+        <div class="eg-i"><strong>Rehearsal priorities</strong><span>What to focus on and what can wait</span></div>
+        <div class="eg-i"><strong>Scheduling</strong><span>Rehearsal times, call times, deadlines</span></div>
+        <div class="eg-i"><strong>Performance format</strong><span>Formation, staging, movement, use of space</span></div>
+        <div class="eg-i"><strong>Communication norms</strong><span>How feedback is given and disagreement handled</span></div>
+        <div class="eg-i"><strong>Membership</strong><span>Who joins, covers absences, substitutes</span></div>
+        <div class="eg-i"><strong>Documentation</strong><span>Scores, notes, shared rehearsal records</span></div>
     </div>
-    <aside class="notes">
-        Don't rush to correct placements. Disagreement about where something sits is productive — it surfaces assumptions about who holds authority.
-        Print this as a reference card for participants if helpful.
-    </aside>
+    <aside class="notes">Don't rush to correct placements. Disagreement about where something sits is productive — it surfaces assumptions about who holds authority. Print this as a reference card for participants if helpful.</aside>
 </section>
 
 
-<!-- ─── PHASE 4: SCENARIO TESTING ─── -->
-<section>
-    <div class="phase-badge" style="background:#E67E22;">Activity 3 &nbsp;·&nbsp; 20 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:20px;">Scenario testing</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <div class="a-card" style="border-left-color:#E67E22;">
-                <h4>Choose 2–3 realistic scenarios</h4>
-                <p>Repertoire choice &nbsp;·&nbsp; Programme order &nbsp;·&nbsp; Stage layout &nbsp;·&nbsp; Contested artistic interpretation</p>
-            </div>
-            <div class="a-card" style="border-left-color:#E67E22;">
-                <h4>Work through each one:</h4>
-                <p>Who decides? &nbsp;·&nbsp; How is feedback gathered? &nbsp;·&nbsp; How is disagreement handled?</p>
-            </div>
+<!-- ─── ACTIVITY 3: SCENARIO TESTING ─── -->
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--c3); border-color:var(--c3);">Activity 3 &nbsp;·&nbsp; 20 min</div>
+    <h2 style="margin-bottom:20px;">Scenario testing</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div style="display:flex; flex-direction:column; gap:8px;">
+            <div class="card c3"><h4>Choose 2–3 realistic scenarios</h4><p>Repertoire choice &nbsp;·&nbsp; Programme order &nbsp;·&nbsp; Stage layout &nbsp;·&nbsp; Contested artistic interpretation</p></div>
+            <div class="card c3"><h4>Work through each one</h4><p>Who decides? &nbsp;·&nbsp; How is feedback gathered? &nbsp;·&nbsp; How is disagreement handled?</p></div>
         </div>
-        <div class="q-box">
-            <span class="q-label">Ask</span>
+        <div class="qbox">
+            <span class="ql">Ask</span>
             <ul>
                 <li>If this happened tomorrow — who speaks, who decides, how is dissent handled?</li>
                 <li>What would make the process feel fair?</li>
             </ul>
         </div>
     </div>
-    <aside class="notes">
-        This is the richest phase. Let it run over if needed — shorten the consensus check instead, not this.
-        WATCH FOR: confusion about who holds the final call, and whether power imbalances surface.
-        Use past situations if helpful, but don't name individuals — name the situation type.
-        If the group gets stuck, push concretely: "This rehearsal. Tomorrow. Who picks up the baton?"
-    </aside>
+    <aside class="notes">This is the richest phase. Let it run over if needed — shorten the consensus check instead. WATCH FOR: confusion about who holds the final call, and whether power imbalances surface. Push concretely: "This rehearsal. Tomorrow. Who picks up the baton?"</aside>
 </section>
 
 
-<!-- ─── PHASE 5: CONSENSUS CHECK ─── -->
-<section>
-    <div class="phase-badge" style="background:#8E44AD;">Activity 4 &nbsp;·&nbsp; 15 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:20px;">Consensus check</h2>
+<!-- ─── ACTIVITY 4: CONSENSUS CHECK ─── -->
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--c4); border-color:var(--c4);">Activity 4 &nbsp;·&nbsp; 15 min</div>
+    <h2 style="margin-bottom:18px;">Consensus check</h2>
     <div class="f2f">
-        <div class="f2f-item">
-            <span class="hand">✊</span>
-            <span class="f-label">Fist</span>
-            <span class="f-desc">Cannot support this</span>
-        </div>
-        <div class="f2f-item">
-            <span class="hand">☝️</span>
-            <span class="f-label">1–2</span>
-            <span class="f-desc">Major concerns</span>
-        </div>
-        <div class="f2f-item">
-            <span class="hand">🤟</span>
-            <span class="f-label">3</span>
-            <span class="f-desc">Can live with it</span>
-        </div>
-        <div class="f2f-item">
-            <span class="hand">🖖</span>
-            <span class="f-label">4</span>
-            <span class="f-desc">Cautious support</span>
-        </div>
-        <div class="f2f-item">
-            <span class="hand">🖐️</span>
-            <span class="f-label">5</span>
-            <span class="f-desc">Full agreement</span>
-        </div>
+        <div class="f2fi"><span class="hand">✊</span><span class="fl">Fist</span><span class="fd">Cannot support</span></div>
+        <div class="f2fi"><span class="hand">☝️</span><span class="fl">1–2</span><span class="fd">Major concerns</span></div>
+        <div class="f2fi"><span class="hand">🤟</span><span class="fl">3</span><span class="fd">Can live with it</span></div>
+        <div class="f2fi"><span class="hand">🖖</span><span class="fl">4</span><span class="fd">Cautious support</span></div>
+        <div class="f2fi"><span class="hand">🖐️</span><span class="fl">5</span><span class="fd">Full agreement</span></div>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;">
-        <div class="q-box">
-            <span class="q-label">Ask</span>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px;">
+        <div class="qbox">
+            <span class="ql">Ask</span>
             <ul>
                 <li>Can you live with this process for a trial period?</li>
                 <li>What would you need to feel safe using it?</li>
             </ul>
         </div>
-        <div class="q-box">
-            <span class="q-label">Capture</span>
+        <div class="qbox">
+            <span class="ql">Capture</span>
             <ul>
                 <li>Full agreements</li>
                 <li>Cautious support with conditions</li>
@@ -749,96 +439,59 @@
             </ul>
         </div>
     </div>
-    <aside class="notes">
-        A fist is not a failure — it's information. Surface it: "Can you say more about what's behind the fist?"
-        Don't push for 5s. A room of 3s that feels heard is healthier than a room of 5s that felt pressured.
-        Record all three categories: agreements, cautious support, and unresolved concerns. The last one is what goes into the draft working agreement as "still to resolve."
-    </aside>
+    <aside class="notes">A fist is not a failure — it's information. Surface it: "Can you say more about what's behind the fist?" Don't push for 5s. A room of 3s that feels heard is healthier than a room of 5s that felt pressured.</aside>
 </section>
 
 
 <!-- ─── CLOSING ─── -->
-<section>
-    <div class="phase-badge">Closing &nbsp;·&nbsp; 10 min</div>
-    <h2 style="font-size:1.3em; margin-bottom:22px;">Working agreement + next steps</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-        <div class="a-card">
+<section data-background-color="#FDFAF6">
+    <div class="badge" style="color:var(--c5); border-color:var(--c5);">Closing &nbsp;·&nbsp; 10 min</div>
+    <h2 style="margin-bottom:22px;">Working agreement + next steps</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="card c5">
             <h4>Before people leave</h4>
             <p>Summarize agreed principles &nbsp;·&nbsp; Name open questions &nbsp;·&nbsp; Assign someone to draft the working agreement &nbsp;·&nbsp; Set a specific review date</p>
         </div>
-        <div class="q-box">
-            <span class="q-label">Ask</span>
+        <div class="qbox">
+            <span class="ql">Ask</span>
             <ul>
                 <li>What have we agreed today?</li>
                 <li>What still needs refinement after we try this in practice?</li>
             </ul>
         </div>
     </div>
-    <aside class="notes">
-        Assign the working agreement drafter BEFORE people leave — vague shared responsibility means no document.
-        The review date must be specific: a rehearsal date, not "in a few weeks."
-        If energy is low, still do this. The closing is where ownership gets assigned, not just felt.
-    </aside>
+    <aside class="notes">Assign the working agreement drafter BEFORE people leave — vague shared responsibility means no document. The review date must be specific: a rehearsal date, not "in a few weeks."</aside>
 </section>
 
 
 <!-- ─── CLOSING SCRIPT ─── -->
-<section data-background-color="#1B2A3B">
-    <div class="phase-badge" style="background:rgba(255,255,255,0.15);">Closing script</div>
-    <div class="script-box" style="margin-top:24px;">
+<section data-background-color="#1C2733">
+    <div class="badge" style="color:rgba(255,255,255,0.3); border-color:rgba(255,255,255,0.12);">Closing script</div>
+    <div class="script-wrap">
+        <span class="open-q">"</span>
+        <p>From this session, we now have a draft way of working: what we decide together, what we delegate, and how we handle disagreement. We will test it, revise it, and return to it with evidence from practice.</p>
         <span class="s-label">Say this to close</span>
-        <p>"From this session, we now have a draft way of working: what we decide together, what we delegate, and how we handle disagreement. We will test it, revise it, and return to it with evidence from practice."</p>
     </div>
-    <aside class="notes">
-        Deliver slowly. Don't rush to pack up. Let the room settle on what was built today.
-        After you say this, stay quiet for five seconds. Let it land.
-    </aside>
+    <aside class="notes">Deliver slowly. Don't rush to pack up. After you say this, stay quiet for five seconds. Let it land.</aside>
 </section>
 
 
 <!-- ─── PARTICIPANT WORKSHEET ─── -->
-<section data-background-color="#F7F5F0">
-    <h2 style="font-size:1.1em; margin-bottom:16px; color:#1B2A3B;">Participant worksheet</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left;">
-        <div class="ws-field">
-            <span class="ws-label">My three leadership values</span>
-            <div class="ws-line"></div>
-            <div class="ws-line"></div>
-            <div style="padding:13px 0;"></div>
-        </div>
-        <div class="ws-field">
-            <span class="ws-label">Values I heard from the group</span>
-            <div class="ws-line"></div>
-            <div class="ws-line"></div>
-            <div style="padding:13px 0;"></div>
-        </div>
-        <div class="ws-field">
-            <span class="ws-label">Decisions I think should be collective</span>
-            <div class="ws-line"></div>
-            <div class="ws-line"></div>
-            <div style="padding:13px 0;"></div>
-        </div>
-        <div class="ws-field">
-            <span class="ws-label">Decisions I think can be delegated</span>
-            <div class="ws-line"></div>
-            <div class="ws-line"></div>
-            <div style="padding:13px 0;"></div>
-        </div>
-        <div class="ws-field" style="grid-column:span 2;">
-            <span class="ws-label">One thing I need to feel safe using this process</span>
-            <div style="padding:22px 0;"></div>
-        </div>
+<section data-background-color="#FDFAF6">
+    <h2 style="font-size:1.1em; margin-bottom:16px;">Participant worksheet</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;">
+        <div class="wsf"><span class="wsl">My three leadership values</span><div class="ws-line"></div><div class="ws-line"></div><div style="padding:10px 0;"></div></div>
+        <div class="wsf"><span class="wsl">Values I heard from the group</span><div class="ws-line"></div><div class="ws-line"></div><div style="padding:10px 0;"></div></div>
+        <div class="wsf"><span class="wsl">Decisions I think should be collective</span><div class="ws-line"></div><div class="ws-line"></div><div style="padding:10px 0;"></div></div>
+        <div class="wsf"><span class="wsl">Decisions I think can be delegated</span><div class="ws-line"></div><div class="ws-line"></div><div style="padding:10px 0;"></div></div>
+        <div class="wsf" style="grid-column:span 2;"><span class="wsl">One thing I need to feel safe using this process</span><div style="padding:16px 0;"></div></div>
     </div>
-    <aside class="notes">
-        Print this slide (browser print → landscape) for each participant, or project it at the start of Activity 1.
-        The last field often surfaces the most honest material of the session.
-    </aside>
+    <aside class="notes">Print this slide (browser print → landscape) for each participant, or project it at the start of Activity 1. The last field often surfaces the most honest material of the session.</aside>
 </section>
 
 
-</div><!-- .slides -->
-</div><!-- .reveal -->
-
+</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.js"></script>
 <script>
     Reveal.initialize({
@@ -847,7 +500,7 @@
         progress: true,
         center: true,
         transition: 'fade',
-        transitionSpeed: 'fast',
+        transitionSpeed: 'default',
         width: 1100,
         height: 700,
         margin: 0.04,

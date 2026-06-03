@@ -2,737 +2,588 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ensemble Artistic Leadership Workshop — Participant Worksheet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        @page {
-            size: A4;
-            margin: 18mm 20mm 16mm;
+        @page { size: A4; margin: 0; }
+
+        :root {
+            --ink:   #1C2733;
+            --ink-2: #576473;
+            --ink-3: #94A3B5;
+            --rule:  #E0D8CF;
+            --paper: #FDFAF6;
+            --c1: #2A6049;
+            --c2: #1E4B7A;
+            --c3: #B85A1A;
+            --c4: #5B2D82;
+            --c5: #A3291F;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Georgia', serif;
+            font-family: 'Inter', sans-serif;
             font-size: 9.5pt;
-            color: #1B2A3B;
+            color: var(--ink);
+            background: #e8e2d9;
             line-height: 1.5;
+        }
+
+        /* ── PAGE SHELL ── */
+        .page {
             background: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top accent bar */
+        .accent-bar {
+            height: 4px;
+            background: var(--ink);
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .page-inner {
+            padding: 14mm 18mm 12mm;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ── HEADER ── */
-        .ws-header {
-            border-bottom: 2px solid #1B2A3B;
-            padding-bottom: 10pt;
-            margin-bottom: 14pt;
-        }
+        .header { margin-bottom: 12pt; }
 
-        .ws-eyebrow {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 7pt;
-            letter-spacing: 2px;
+        .eyebrow {
+            font-size: 6.5pt;
+            font-weight: 700;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            color: #888;
+            color: var(--ink-3);
             margin-bottom: 4pt;
         }
 
-        .ws-title {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 18pt;
-            font-weight: 700;
-            color: #1B2A3B;
-            letter-spacing: -0.5px;
+        .doc-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 400;
+            font-size: 22pt;
+            color: var(--ink);
             line-height: 1.1;
             margin-bottom: 6pt;
         }
 
-        .ws-purpose {
-            font-size: 8.5pt;
-            color: #666;
+        .purpose {
+            font-size: 8pt;
+            color: var(--ink-2);
             font-style: italic;
-            max-width: 90%;
-            line-height: 1.5;
+            max-width: 88%;
+            line-height: 1.55;
+            margin-bottom: 10pt;
         }
 
-        .ws-name-row {
+        .header-rule {
+            border: none;
+            border-top: 1px solid var(--rule);
+            margin-bottom: 10pt;
+        }
+
+        .meta-row {
             display: flex;
-            gap: 24pt;
-            margin-top: 10pt;
+            gap: 20pt;
         }
 
-        .ws-name-field {
-            flex: 1;
-        }
+        .meta-field { flex: 1; }
 
-        .ws-name-field label {
-            font-family: Arial, sans-serif;
-            font-size: 7pt;
-            letter-spacing: 1.5px;
+        .meta-label {
+            font-size: 6.5pt;
+            font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            color: #aaa;
+            color: var(--ink-3);
             display: block;
             margin-bottom: 3pt;
         }
 
-        .ws-name-field .fill-line {
-            border-bottom: 1px solid #C0B8AE;
-            padding-bottom: 4pt;
-        }
-
-        /* ── SECTIONS ── */
-        .section {
-            margin-bottom: 14pt;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 9pt;
-            margin-bottom: 8pt;
-        }
-
-        .section-num {
-            width: 20pt;
-            height: 20pt;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: Arial, sans-serif;
-            font-size: 8pt;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .section-title {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10.5pt;
-            font-weight: 700;
-            color: #1B2A3B;
-        }
-
-        .section-subtitle {
-            font-family: Arial, sans-serif;
-            font-size: 7.5pt;
-            color: #999;
-            margin-top: 1pt;
-        }
-
-        .section-body {
-            padding-left: 29pt;
-        }
-
-        /* ── FILL LINES ── */
-        .fill-line {
-            border-bottom: 1px solid #C8C2BA;
-            margin-bottom: 8pt;
-            padding-bottom: 5pt;
-            min-height: 16pt;
-        }
-
-        .fill-line-sm {
-            border-bottom: 1px solid #C8C2BA;
+        .meta-line {
+            border-bottom: 1px solid var(--rule);
             padding-bottom: 4pt;
             min-height: 14pt;
         }
 
-        .fill-line-label {
-            font-family: Arial, sans-serif;
-            font-size: 7.5pt;
-            color: #1B2A3B;
-            font-weight: 600;
-            margin-bottom: 2pt;
-        }
+        /* ── SECTION ── */
+        .section { margin-bottom: 11pt; }
 
-        .fill-block {
-            margin-bottom: 8pt;
-        }
-
-        /* ── NUMBERED LIST ── */
-        .numbered-fields {
+        .section-header {
             display: flex;
-            flex-direction: column;
-            gap: 7pt;
-            margin-bottom: 10pt;
+            align-items: stretch;
+            gap: 0;
+            margin-bottom: 7pt;
         }
 
-        .numbered-field {
-            display: flex;
-            align-items: flex-end;
-            gap: 8pt;
-        }
-
-        .field-num {
-            font-family: Arial, sans-serif;
-            font-size: 8pt;
-            font-weight: 700;
-            color: #aaa;
-            padding-bottom: 5pt;
+        .section-bar {
+            width: 3pt;
+            border-radius: 2pt;
             flex-shrink: 0;
-            width: 10pt;
+            margin-right: 9pt;
         }
 
-        .field-line {
-            flex: 1;
-            border-bottom: 1px solid #C8C2BA;
-            padding-bottom: 5pt;
-            min-height: 16pt;
-        }
+        .section-titles { display: flex; flex-direction: column; justify-content: center; }
 
-        /* ── DECISION TYPE TAGS ── */
-        .decision-tags {
-            display: flex;
-            gap: 6pt;
-            margin-bottom: 8pt;
-            flex-wrap: wrap;
-        }
-
-        .decision-tag {
-            font-family: Arial, sans-serif;
-            font-size: 7pt;
+        .section-eyebrow {
+            font-size: 6.5pt;
             font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 2pt 8pt;
-            border-radius: 10pt;
-            color: white;
+            margin-bottom: 1pt;
         }
 
-        .tag-collective    { background: #27AE60; }
-        .tag-consultative  { background: #2980B9; }
-        .tag-delegated     { background: #E67E22; }
-        .tag-director      { background: #C0392B; }
+        .section-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 10pt;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.2px;
+        }
+
+        .section-body { padding-left: 12pt; }
+
+        /* ── FORM ELEMENTS ── */
+        .field-label {
+            font-size: 7pt;
+            font-weight: 600;
+            color: var(--ink-2);
+            display: block;
+            margin-bottom: 3pt;
+        }
+
+        .fill-line {
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 5pt;
+            margin-bottom: 7pt;
+            min-height: 15pt;
+        }
+
+        .fill-line-lg {
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 5pt;
+            margin-bottom: 4pt;
+            min-height: 18pt;
+        }
+
+        /* Numbered inputs */
+        .num-fields { display: flex; flex-direction: column; gap: 6pt; margin-bottom: 9pt; }
+
+        .num-row { display: flex; align-items: flex-end; gap: 7pt; }
+
+        .num-marker {
+            font-family: 'Playfair Display', serif;
+            font-size: 9pt;
+            color: var(--ink-3);
+            padding-bottom: 5pt;
+            width: 11pt;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .num-line {
+            flex: 1;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 5pt;
+            min-height: 15pt;
+        }
+
+        /* ── DECISION SPECTRUM (small) ── */
+        .spectrum-ref {
+            display: flex;
+            border-radius: 4pt;
+            overflow: hidden;
+            margin-bottom: 9pt;
+        }
+
+        .sr-item {
+            flex: 1;
+            padding: 5pt 0;
+            text-align: center;
+            color: white;
+            font-size: 6.5pt;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
 
         /* ── TABLE ── */
-        .ws-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
-        }
+        .ws-table { width: 100%; border-collapse: collapse; margin-bottom: 0; }
 
         .ws-table th {
-            font-family: Arial, sans-serif;
-            font-size: 7pt;
+            font-size: 6.5pt;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #888;
-            font-weight: 600;
-            padding: 5pt 8pt;
-            border-bottom: 1.5px solid #1B2A3B;
+            letter-spacing: 1.5px;
+            color: var(--ink-3);
+            padding: 4pt 8pt 5pt;
+            border-bottom: 1.5px solid var(--ink);
             text-align: left;
         }
 
         .ws-table td {
-            padding: 7pt 8pt 3pt;
-            border-bottom: 1px solid #E0DAD4;
+            padding: 6pt 8pt 2pt;
+            border-bottom: 1px solid var(--rule);
             vertical-align: bottom;
         }
 
-        .ws-table td.decision-col {
-            width: 34%;
-        }
-
-        .ws-table td.type-col {
-            width: 30%;
-        }
-
-        .ws-table td.why-col {
-            width: 36%;
-        }
-
-        .ws-table td .td-line {
-            border-bottom: 1px solid #C8C2BA;
+        .ws-table td .td-l {
+            border-bottom: 1px solid var(--rule);
             padding-bottom: 3pt;
-            min-height: 14pt;
+            min-height: 13pt;
         }
 
         /* ── SCENARIO BLOCK ── */
-        .scenario-block {
-            border: 1px solid #E0DAD4;
-            border-radius: 5pt;
-            padding: 8pt 10pt;
-            margin-bottom: 7pt;
-        }
+        .scenario { border: 1px solid var(--rule); border-radius: 4pt; padding: 8pt 10pt; margin-bottom: 6pt; }
+        .scenario:last-child { margin-bottom: 0; }
 
-        .scenario-label {
-            font-family: Arial, sans-serif;
-            font-size: 7pt;
+        .sc-label {
+            font-size: 6.5pt;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #E67E22;
-            margin-bottom: 6pt;
-        }
-
-        .scenario-row {
-            display: flex;
-            gap: 8pt;
+            letter-spacing: 1.5px;
             margin-bottom: 5pt;
         }
 
-        .scenario-row:last-child {
-            margin-bottom: 0;
-        }
+        .sc-row { display: flex; gap: 7pt; margin-bottom: 4pt; }
+        .sc-row:last-child { margin-bottom: 0; }
 
-        .scenario-q {
-            font-family: Arial, sans-serif;
-            font-size: 7.5pt;
-            color: #666;
-            width: 90pt;
+        .sc-q {
+            font-size: 7pt;
+            color: var(--ink-2);
+            width: 85pt;
             flex-shrink: 0;
             padding-top: 4pt;
         }
 
-        .scenario-line {
+        .sc-line {
             flex: 1;
-            border-bottom: 1px solid #C8C2BA;
-            padding-bottom: 4pt;
-            min-height: 14pt;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 3pt;
+            min-height: 13pt;
         }
 
-        /* ── CONSENSUS SCALE ── */
-        .consensus-scale {
-            display: flex;
-            gap: 0;
-            margin-bottom: 8pt;
-        }
+        /* ── CONSENSUS ── */
+        .scale { display: flex; gap: 0; margin-bottom: 8pt; }
 
-        .consensus-item {
+        .scale-item {
             flex: 1;
-            text-align: center;
-            border: 1px solid #E0DAD4;
+            border: 1px solid var(--rule);
             border-right: none;
-            padding: 6pt 4pt 4pt;
+            padding: 6pt 3pt 5pt;
+            text-align: center;
         }
 
-        .consensus-item:first-child {
-            border-radius: 4pt 0 0 4pt;
-        }
+        .scale-item:first-child { border-radius: 4pt 0 0 4pt; }
+        .scale-item:last-child  { border-right: 1px solid var(--rule); border-radius: 0 4pt 4pt 0; }
 
-        .consensus-item:last-child {
-            border-right: 1px solid #E0DAD4;
-            border-radius: 0 4pt 4pt 0;
-        }
-
-        .consensus-num {
-            font-family: Arial, sans-serif;
-            font-size: 11pt;
-            font-weight: 700;
-            color: #1B2A3B;
+        .scale-n {
+            font-family: 'Playfair Display', serif;
+            font-size: 12pt;
+            font-weight: 400;
+            color: var(--ink);
             display: block;
             margin-bottom: 2pt;
         }
 
-        .consensus-desc {
-            font-size: 6.5pt;
-            color: #999;
+        .scale-d {
+            font-size: 6pt;
+            color: var(--ink-3);
             line-height: 1.3;
-            font-family: Arial, sans-serif;
+            display: block;
+            margin-bottom: 5pt;
         }
 
-        .consensus-circle {
-            width: 14pt;
-            height: 14pt;
+        .scale-circle {
+            width: 12pt;
+            height: 12pt;
             border-radius: 50%;
-            border: 1.5px solid #C8C2BA;
-            margin: 4pt auto 0;
+            border: 1.5px solid var(--rule);
+            margin: 0 auto;
         }
 
-        /* ── RATING ROW ── */
-        .rating-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 10pt;
-            margin-bottom: 8pt;
-        }
+        /* ── AGREEMENT ROWS ── */
+        .ag-row { display: flex; align-items: flex-end; gap: 6pt; margin-bottom: 8pt; }
+        .ag-row:last-child { margin-bottom: 0; }
 
-        .rating-label {
-            font-family: Arial, sans-serif;
+        .ag-stem {
             font-size: 8pt;
-            font-weight: 700;
-            color: #1B2A3B;
-            white-space: nowrap;
-            padding-bottom: 5pt;
-        }
-
-        .rating-box {
-            width: 24pt;
-            height: 20pt;
-            border: 1.5px solid #1B2A3B;
-            border-radius: 3pt;
-        }
-
-        /* ── WORKING AGREEMENT ── */
-        .agreement-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 8pt;
-            margin-bottom: 8pt;
-        }
-
-        .agreement-stem {
-            font-size: 8.5pt;
-            color: #555;
+            color: var(--ink-2);
             font-style: italic;
             white-space: nowrap;
             padding-bottom: 5pt;
+            flex-shrink: 0;
         }
 
-        /* ── PAGE BREAK ── */
-        .page-break {
-            page-break-before: always;
+        .ag-line {
+            flex: 1;
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 5pt;
+            min-height: 15pt;
         }
 
-        /* ── SECTION DIVIDER ── */
-        .section-rule {
-            border: none;
-            border-top: 1px solid #E8E2DC;
-            margin: 12pt 0;
-        }
+        /* ── DIVIDER ── */
+        hr.div { border: none; border-top: 1px solid var(--rule); margin: 10pt 0; }
 
         /* ── FOOTER ── */
-        .ws-footer {
-            margin-top: 14pt;
+        .footer {
+            margin-top: auto;
             padding-top: 8pt;
-            border-top: 1px solid #E0DAD4;
+            border-top: 1px solid var(--rule);
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
-        .ws-footer span {
-            font-family: Arial, sans-serif;
-            font-size: 7pt;
-            color: #bbb;
-            letter-spacing: 0.5px;
+        .footer span {
+            font-size: 6.5pt;
+            color: var(--ink-3);
+            letter-spacing: 0.3px;
+        }
+
+        /* ── PAGE 2 header ── */
+        .p2-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding-bottom: 8pt;
+            border-bottom: 1px solid var(--rule);
+            margin-bottom: 12pt;
+        }
+
+        .p2-header span {
+            font-size: 6.5pt;
+            color: var(--ink-3);
+            letter-spacing: 0.3px;
         }
 
         /* ── SCREEN VIEW ── */
         @media screen {
-            body {
-                background: #f0ede8;
-                padding: 20px;
-            }
-
-            .page {
-                background: white;
-                width: 210mm;
-                min-height: 297mm;
-                margin: 0 auto 24px;
-                padding: 18mm 20mm 16mm;
-                box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-            }
+            body { padding: 24px 0; }
+            .page { margin-bottom: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.14); }
         }
 
         @media print {
             body { background: white; padding: 0; }
-            .page { padding: 0; }
+            .page { box-shadow: none; }
+            .page + .page { page-break-before: always; }
         }
     </style>
 </head>
 <body>
 
+
 <!-- ════ PAGE 1 ════ -->
 <div class="page">
+    <div class="accent-bar"></div>
+    <div class="page-inner">
 
-    <!-- HEADER -->
-    <div class="ws-header">
-        <div class="ws-eyebrow">Ensemble Artistic Leadership Workshop</div>
-        <div class="ws-title">Participant Worksheet</div>
-        <div class="ws-purpose">Today we are exploring how our ensemble can share artistic leadership in a way that is clear, fair, and workable.</div>
-        <div class="ws-name-row">
-            <div class="ws-name-field">
-                <label>Name</label>
-                <div class="fill-line"></div>
-            </div>
-            <div class="ws-name-field">
-                <label>Date</label>
-                <div class="fill-line"></div>
+        <!-- HEADER -->
+        <div class="header">
+            <div class="eyebrow">Ensemble Artistic Leadership Workshop</div>
+            <div class="doc-title">Participant<br>Worksheet</div>
+            <div class="purpose">Today we are exploring how our ensemble can share artistic leadership in a way that is clear, fair, and workable.</div>
+            <hr class="header-rule">
+            <div class="meta-row">
+                <div class="meta-field"><span class="meta-label">Name</span><div class="meta-line"></div></div>
+                <div class="meta-field"><span class="meta-label">Date</span><div class="meta-line"></div></div>
             </div>
         </div>
-    </div>
 
-    <!-- SECTION 1: VALUES MAPPING -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#27AE60;">1</div>
-            <div>
-                <div class="section-title">Values Mapping</div>
-                <div class="section-subtitle">Activity 1 &nbsp;·&nbsp; 15 min</div>
-            </div>
-        </div>
-        <div class="section-body">
-            <div class="fill-line-label">What 3 values do you want to guide our ensemble's artistic leadership?</div>
-            <div class="numbered-fields">
-                <div class="numbered-field">
-                    <div class="field-num">1.</div>
-                    <div class="field-line"></div>
-                </div>
-                <div class="numbered-field">
-                    <div class="field-num">2.</div>
-                    <div class="field-line"></div>
-                </div>
-                <div class="numbered-field">
-                    <div class="field-num">3.</div>
-                    <div class="field-line"></div>
+        <!-- SECTION 1 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--c1);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--c1);">01 &nbsp;·&nbsp; Activity 1 &nbsp;·&nbsp; 15 min</div>
+                    <div class="section-name">Values Mapping</div>
                 </div>
             </div>
-            <div class="fill-block">
-                <div class="fill-line-label">Which value is non-negotiable for you?</div>
+            <div class="section-body">
+                <span class="field-label">What 3 values do you want to guide our ensemble's artistic leadership?</span>
+                <div class="num-fields">
+                    <div class="num-row"><div class="num-marker">1.</div><div class="num-line"></div></div>
+                    <div class="num-row"><div class="num-marker">2.</div><div class="num-line"></div></div>
+                    <div class="num-row"><div class="num-marker">3.</div><div class="num-line"></div></div>
+                </div>
+                <span class="field-label">Which value is non-negotiable for you?</span>
                 <div class="fill-line"></div>
             </div>
         </div>
-    </div>
 
-    <hr class="section-rule">
+        <hr class="div">
 
-    <!-- SECTION 2: DECISION CATEGORIES -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#2980B9;">2</div>
-            <div>
-                <div class="section-title">Decision Categories</div>
-                <div class="section-subtitle">Activity 2 &nbsp;·&nbsp; 15 min</div>
+        <!-- SECTION 2 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--c2);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--c2);">02 &nbsp;·&nbsp; Activity 2 &nbsp;·&nbsp; 15 min</div>
+                    <div class="section-name">Decision Categories</div>
+                </div>
+            </div>
+            <div class="section-body">
+                <div class="spectrum-ref">
+                    <div class="sr-item" style="background:var(--c1);">Collective</div>
+                    <div class="sr-item" style="background:var(--c2);">Consultative</div>
+                    <div class="sr-item" style="background:var(--c3);">Delegated</div>
+                    <div class="sr-item" style="background:var(--c5);">Director-led</div>
+                </div>
+                <table class="ws-table">
+                    <thead>
+                        <tr>
+                            <th style="width:38%;">Decision</th>
+                            <th style="width:28%;">Type</th>
+                            <th style="width:34%;">Why?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="td-l"></div></td><td><div class="td-l"></div></td><td><div class="td-l"></div></td></tr>
+                        <tr><td><div class="td-l"></div></td><td><div class="td-l"></div></td><td><div class="td-l"></div></td></tr>
+                        <tr><td><div class="td-l"></div></td><td><div class="td-l"></div></td><td><div class="td-l"></div></td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="section-body">
-            <div class="fill-line-label" style="margin-bottom:5pt;">Decision types — use these as reference:</div>
-            <div class="decision-tags" style="margin-bottom:10pt;">
-                <span class="decision-tag tag-collective">Collective</span>
-                <span class="decision-tag tag-consultative">Consultative</span>
-                <span class="decision-tag tag-delegated">Delegated</span>
-                <span class="decision-tag tag-director">Director-led</span>
-            </div>
-            <table class="ws-table">
-                <thead>
-                    <tr>
-                        <th class="decision-col">Decision</th>
-                        <th class="type-col">Type</th>
-                        <th class="why-col">Why?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="decision-col"><div class="td-line"></div></td>
-                        <td class="type-col"><div class="td-line"></div></td>
-                        <td class="why-col"><div class="td-line"></div></td>
-                    </tr>
-                    <tr>
-                        <td class="decision-col"><div class="td-line"></div></td>
-                        <td class="type-col"><div class="td-line"></div></td>
-                        <td class="why-col"><div class="td-line"></div></td>
-                    </tr>
-                    <tr>
-                        <td class="decision-col"><div class="td-line"></div></td>
-                        <td class="type-col"><div class="td-line"></div></td>
-                        <td class="why-col"><div class="td-line"></div></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <hr class="section-rule">
+        <hr class="div">
 
-    <!-- SECTION 3: SCENARIO TESTING -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#E67E22;">3</div>
-            <div>
-                <div class="section-title">Scenario Testing</div>
-                <div class="section-subtitle">Activity 3 &nbsp;·&nbsp; 20 min</div>
-            </div>
-        </div>
-        <div class="section-body">
-            <div class="scenario-block">
-                <div class="scenario-label">Scenario A &nbsp;·&nbsp; Repertoire choice</div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who decides?</div>
-                    <div class="scenario-line"></div>
-                </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who gives input?</div>
-                    <div class="scenario-line"></div>
-                </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Disagreement handled by?</div>
-                    <div class="scenario-line"></div>
+        <!-- SECTION 3 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--c3);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--c3);">03 &nbsp;·&nbsp; Activity 3 &nbsp;·&nbsp; 20 min</div>
+                    <div class="section-name">Scenario Testing</div>
                 </div>
             </div>
-            <div class="scenario-block">
-                <div class="scenario-label">Scenario B &nbsp;·&nbsp; Programme order</div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who decides?</div>
-                    <div class="scenario-line"></div>
+            <div class="section-body">
+                <div class="scenario">
+                    <div class="sc-label" style="color:var(--c3);">Scenario A &nbsp;·&nbsp; Repertoire choice</div>
+                    <div class="sc-row"><div class="sc-q">Who decides?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Who gives input?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Disagreement handled by?</div><div class="sc-line"></div></div>
                 </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who gives input?</div>
-                    <div class="scenario-line"></div>
+                <div class="scenario">
+                    <div class="sc-label" style="color:var(--c3);">Scenario B &nbsp;·&nbsp; Programme order</div>
+                    <div class="sc-row"><div class="sc-q">Who decides?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Who gives input?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Disagreement handled by?</div><div class="sc-line"></div></div>
                 </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Disagreement handled by?</div>
-                    <div class="scenario-line"></div>
-                </div>
-            </div>
-            <div class="scenario-block">
-                <div class="scenario-label">Scenario C &nbsp;·&nbsp; Artistic interpretation</div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who decides?</div>
-                    <div class="scenario-line"></div>
-                </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Who gives input?</div>
-                    <div class="scenario-line"></div>
-                </div>
-                <div class="scenario-row">
-                    <div class="scenario-q">Disagreement handled by?</div>
-                    <div class="scenario-line"></div>
+                <div class="scenario">
+                    <div class="sc-label" style="color:var(--c3);">Scenario C &nbsp;·&nbsp; Artistic interpretation</div>
+                    <div class="sc-row"><div class="sc-q">Who decides?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Who gives input?</div><div class="sc-line"></div></div>
+                    <div class="sc-row"><div class="sc-q">Disagreement handled by?</div><div class="sc-line"></div></div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="ws-footer">
-        <span>Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</span>
-        <span>Page 1 of 2</span>
-    </div>
+        <div class="footer">
+            <span>Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</span>
+            <span>Page 1 of 2</span>
+        </div>
 
-</div><!-- end page 1 -->
+    </div>
+</div>
 
 
 <!-- ════ PAGE 2 ════ -->
-<div class="page page-break">
+<div class="page">
+    <div class="accent-bar"></div>
+    <div class="page-inner">
 
-    <!-- PAGE 2 HEADER -->
-    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14pt; padding-bottom:8pt; border-bottom:1px solid #E0DAD4;">
-        <div style="font-family:Arial,sans-serif; font-size:7pt; color:#bbb; letter-spacing:1.5px; text-transform:uppercase;">Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</div>
-        <div style="font-family:Arial,sans-serif; font-size:7pt; color:#bbb;">Page 2 of 2</div>
-    </div>
-
-    <!-- SECTION 4: CONSENSUS CHECK -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#8E44AD;">4</div>
-            <div>
-                <div class="section-title">Consensus Check</div>
-                <div class="section-subtitle">Activity 4 &nbsp;·&nbsp; 15 min</div>
-            </div>
+        <div class="p2-header">
+            <span>Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</span>
+            <span>Page 2 of 2</span>
         </div>
-        <div class="section-body">
-            <div class="fill-line-label" style="margin-bottom:7pt;">How strongly do you support the draft process? Circle your rating.</div>
-            <div class="consensus-scale">
-                <div class="consensus-item">
-                    <span class="consensus-num">0</span>
-                    <span class="consensus-desc">Strong<br>objection</span>
-                    <div class="consensus-circle"></div>
-                </div>
-                <div class="consensus-item">
-                    <span class="consensus-num">1</span>
-                    <span class="consensus-desc">Major<br>concern</span>
-                    <div class="consensus-circle"></div>
-                </div>
-                <div class="consensus-item">
-                    <span class="consensus-num">2</span>
-                    <span class="consensus-desc">Needs<br>changes</span>
-                    <div class="consensus-circle"></div>
-                </div>
-                <div class="consensus-item">
-                    <span class="consensus-num">3</span>
-                    <span class="consensus-desc">Can live<br>with it</span>
-                    <div class="consensus-circle"></div>
-                </div>
-                <div class="consensus-item">
-                    <span class="consensus-num">4</span>
-                    <span class="consensus-desc">Support</span>
-                    <div class="consensus-circle"></div>
-                </div>
-                <div class="consensus-item">
-                    <span class="consensus-num">5</span>
-                    <span class="consensus-desc">Strong<br>support</span>
-                    <div class="consensus-circle"></div>
+
+        <!-- SECTION 4 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--c4);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--c4);">04 &nbsp;·&nbsp; Activity 4 &nbsp;·&nbsp; 15 min</div>
+                    <div class="section-name">Consensus Check</div>
                 </div>
             </div>
-            <div class="fill-block" style="margin-top:8pt;">
-                <div class="fill-line-label">What would help move this closer to a 5?</div>
+            <div class="section-body">
+                <span class="field-label" style="margin-bottom:7pt; display:block;">How strongly do you support the draft process? Circle your rating.</span>
+                <div class="scale">
+                    <div class="scale-item"><span class="scale-n">0</span><span class="scale-d">Strong<br>objection</span><div class="scale-circle"></div></div>
+                    <div class="scale-item"><span class="scale-n">1</span><span class="scale-d">Major<br>concern</span><div class="scale-circle"></div></div>
+                    <div class="scale-item"><span class="scale-n">2</span><span class="scale-d">Needs<br>changes</span><div class="scale-circle"></div></div>
+                    <div class="scale-item"><span class="scale-n">3</span><span class="scale-d">Can live<br>with it</span><div class="scale-circle"></div></div>
+                    <div class="scale-item"><span class="scale-n">4</span><span class="scale-d">Support</span><div class="scale-circle"></div></div>
+                    <div class="scale-item"><span class="scale-n">5</span><span class="scale-d">Strong<br>support</span><div class="scale-circle"></div></div>
+                </div>
+                <span class="field-label">What would help move this closer to a 5?</span>
                 <div class="fill-line"></div>
                 <div class="fill-line"></div>
             </div>
         </div>
-    </div>
 
-    <hr class="section-rule">
+        <hr class="div">
 
-    <!-- SECTION 5: DRAFT WORKING AGREEMENT -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#C0392B;">5</div>
-            <div>
-                <div class="section-title">Draft Working Agreement</div>
-                <div class="section-subtitle">Closing &nbsp;·&nbsp; 10 min</div>
-            </div>
-        </div>
-        <div class="section-body">
-            <div class="fill-block">
-                <div class="agreement-row">
-                    <div class="agreement-stem">We will decide together on:</div>
-                    <div class="fill-line" style="flex:1; margin-bottom:0;"></div>
+        <!-- SECTION 5 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--c5);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--c5);">05 &nbsp;·&nbsp; Closing &nbsp;·&nbsp; 10 min</div>
+                    <div class="section-name">Draft Working Agreement</div>
                 </div>
-                <div class="fill-line" style="margin-bottom:8pt; margin-left:0;"></div>
             </div>
-            <div class="fill-block">
-                <div class="agreement-row">
-                    <div class="agreement-stem">We will delegate:</div>
-                    <div class="fill-line" style="flex:1; margin-bottom:0;"></div>
-                </div>
+            <div class="section-body">
+                <div class="ag-row"><div class="ag-stem">We will decide together on:</div><div class="ag-line"></div></div>
                 <div class="fill-line" style="margin-bottom:8pt;"></div>
-            </div>
-            <div class="fill-block">
-                <div class="agreement-row">
-                    <div class="agreement-stem">We will use this process when we disagree:</div>
-                    <div class="fill-line" style="flex:1; margin-bottom:0;"></div>
-                </div>
+                <div class="ag-row"><div class="ag-stem">We will delegate:</div><div class="ag-line"></div></div>
                 <div class="fill-line" style="margin-bottom:8pt;"></div>
+                <div class="ag-row"><div class="ag-stem">We will use this process when we disagree:</div><div class="ag-line"></div></div>
+                <div class="fill-line" style="margin-bottom:8pt;"></div>
+                <div class="ag-row"><div class="ag-stem">We will review this agreement on:</div><div class="ag-line"></div></div>
             </div>
-            <div class="fill-block">
-                <div class="agreement-row">
-                    <div class="agreement-stem">We will review this agreement on:</div>
-                    <div class="fill-line" style="flex:1; margin-bottom:0;"></div>
+        </div>
+
+        <hr class="div">
+
+        <!-- SECTION 6 -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-bar" style="background:var(--ink);"></div>
+                <div class="section-titles">
+                    <div class="section-eyebrow" style="color:var(--ink-3);">06 &nbsp;·&nbsp; Before you leave</div>
+                    <div class="section-name">Closing Reflection</div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <hr class="section-rule">
-
-    <!-- SECTION 6: CLOSING REFLECTION -->
-    <div class="section">
-        <div class="section-header">
-            <div class="section-num" style="background:#1B2A3B;">6</div>
-            <div>
-                <div class="section-title">Closing Reflection</div>
-                <div class="section-subtitle">Take a moment before you leave</div>
-            </div>
-        </div>
-        <div class="section-body">
-            <div class="fill-block">
-                <div class="fill-line-label">One thing I am leaving with today:</div>
-                <div class="fill-line"></div>
-                <div class="fill-line"></div>
-            </div>
-            <div class="fill-block">
-                <div class="fill-line-label">One question I still have:</div>
-                <div class="fill-line"></div>
+            <div class="section-body">
+                <span class="field-label">One thing I am leaving with today:</span>
+                <div class="fill-line-lg"></div>
+                <div class="fill-line" style="margin-bottom:10pt;"></div>
+                <span class="field-label">One question I still have:</span>
+                <div class="fill-line-lg"></div>
                 <div class="fill-line"></div>
             </div>
         </div>
-    </div>
 
-    <div class="ws-footer">
-        <span>Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</span>
-        <span>Page 2 of 2</span>
-    </div>
+        <div class="footer" style="margin-top:auto;">
+            <span>Ensemble Artistic Leadership Workshop &nbsp;·&nbsp; Participant Worksheet</span>
+            <span>Page 2 of 2</span>
+        </div>
 
-</div><!-- end page 2 -->
+    </div>
+</div>
+
 
 </body>
 </html>
