@@ -307,7 +307,10 @@
         </div>
     </div>
 
-    <aside class="notes">Participants go to ensemble_icebreaker.html — they enter name, optional photo, and 3 statements. Their name appears in the bar above. Click a name to activate voting. After the group votes, click Reveal to show which statement was the lie. Then click the next name.</aside>
+    <!-- Reset button: bottom-left, requires two clicks -->
+    <button id="ib-reset-btn" onclick="ibReset(event)" style="position:absolute;bottom:14px;left:14px;background:transparent;border:none;color:rgba(255,255,255,0.15);font-family:Inter,sans-serif;font-size:0.32em;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:4px 0;" data-armed="0">Reset session</button>
+
+    <aside class="notes">Participants go to ensemble_icebreaker.html — they enter name, optional photo, and 3 statements. Their name appears in the bar above. Click a name to activate voting. After the group votes, click Reveal to show which statement was the lie. Then click the next name. Reset session button (bottom-left) clears all data — click once to arm it (turns red), click again within 4 seconds to confirm.</aside>
 </section>
 
 
@@ -761,6 +764,34 @@
         const tag = document.getElementById('ib-lie-tag');
         if (btn) btn.style.display = revealed ? 'none' : 'inline-block';
         if (tag) { tag.style.display = revealed ? 'inline' : 'none'; if (revealed) tag.textContent = 'The lie was ' + e.lie.toUpperCase(); }
+    }
+
+    let _ibResetTimer = null;
+
+    function ibReset(e) {
+        e.stopPropagation();
+        const btn = document.getElementById('ib-reset-btn');
+        if (!btn) return;
+
+        if (btn.dataset.armed === '1') {
+            // Second click — execute reset
+            clearTimeout(_ibResetTimer);
+            btn.dataset.armed = '0';
+            btn.style.color = 'rgba(255,255,255,0.15)';
+            btn.textContent = 'Reset session';
+            const ref = _ibRef('');
+            if (ref) ref.remove();
+        } else {
+            // First click — arm it
+            btn.dataset.armed = '1';
+            btn.style.color = '#A3291F';
+            btn.textContent = 'Click again to confirm';
+            _ibResetTimer = setTimeout(() => {
+                btn.dataset.armed = '0';
+                btn.style.color = 'rgba(255,255,255,0.15)';
+                btn.textContent = 'Reset session';
+            }, 4000);
+        }
     }
 
     function ibInit() {
