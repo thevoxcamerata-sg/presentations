@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Truths &amp; a Lie — Ensemble Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+    <style>
+        :root {
+            --ink:   #1C2733;
+            --ink-2: #576473;
+            --ink-3: #94A3B5;
+            --paper: #FDFAF6;
+            --rule:  #E0D8CF;
+            --c1: #2A6049;
+            --c2: #1E4B7A;
+            --c5: #A3291F;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e8e2d9;
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        .top-bar { background: var(--ink); padding: 13px 16px 11px; }
+
+        .top-bar-inner { max-width: 600px; margin: 0 auto; }
+
+        .top-bar-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .top-bar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: white;
+        }
+
+        .main { max-width: 600px; margin: 0 auto; padding: 16px 14px 90px; }
+
+        /* Phases */
+        .phase { display: none; }
+        .phase.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+        .card-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--ink-3);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Inputs */
+        .field-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+        .field-row:last-of-type { margin-bottom: 0; }
+
+        .field-letter {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-3);
+            flex-shrink: 0;
+            margin-top: 9px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .field-letter.marked { background: var(--c5); color: white; }
+
+        .field-input {
+            flex: 1;
+            border: 1.5px solid var(--rule);
+            border-radius: 5px;
+            padding: 9px 11px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: var(--ink);
+            background: white;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .field-input:focus { border-color: var(--ink-3); }
+
+        /* Lie selector */
+        .lie-row { display: flex; gap: 6px; margin-top: 12px; }
+
+        .lie-btn {
+            flex: 1;
+            padding: 9px 6px;
+            border: 1.5px solid var(--rule);
+            border-radius: 5px;
+            background: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink-3);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .lie-btn.sel { background: var(--c5); border-color: var(--c5); color: white; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--ink);
+            border: none;
+            border-radius: 7px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            margin-top: 4px;
+            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s;
+        }
+
+        .submit-btn:disabled { opacity: 0.35; }
+
+        /* Waiting */
+        .check-card {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            padding: 24px 16px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .check-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--c1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .check-icon svg { width: 18px; height: 18px; }
+
+        .check-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--ink);
+            margin-bottom: 5px;
+        }
+
+        .check-card p { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .chip {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11.5px;
+            color: var(--ink-2);
+        }
+
+        /* Your turn */
+        .your-turn-banner {
+            background: var(--ink);
+            border-radius: 8px;
+            padding: 22px 16px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .your-turn-banner h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .your-turn-banner p { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+        .stmt-ref-list { background: white; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+
+        .stmt-ref-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .stmt-ref-row:last-child { border-bottom: none; }
+
+        .ref-letter { font-size: 10px; font-weight: 700; color: var(--ink-3); padding-top: 2px; flex-shrink: 0; }
+        .ref-text { font-size: 12.5px; color: var(--ink); line-height: 1.45; flex: 1; }
+
+        .lie-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--c5);
+            border: 1px solid var(--c5);
+            border-radius: 3px;
+            padding: 1px 5px;
+            margin-left: 6px;
+            flex-shrink: 0;
+        }
+
+        /* Voting */
+        .vote-card {
+            background: white;
+            border: 1.5px solid var(--rule);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.15s;
+        }
+
+        .vote-card.sel { border-color: var(--c2); }
+
+        .vote-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--ink-3);
+            flex-shrink: 0;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .vote-letter.sel { background: var(--c2); color: white; }
+
+        .vote-text { flex: 1; font-size: 13px; color: var(--ink); line-height: 1.4; }
+
+        .vote-btn {
+            padding: 7px 13px;
+            border: 1.5px solid var(--c2);
+            border-radius: 4px;
+            background: white;
+            color: var(--c2);
+            font-family: 'Inter', sans-serif;
+            font-size: 10.5px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .vote-btn.sel { background: var(--c2); color: white; }
+
+        /* Revealed */
+        .reveal-list { background: white; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+
+        .reveal-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--rule);
+        }
+
+        .reveal-row:last-child { border-bottom: none; }
+        .reveal-row.is-lie { background: #fff5f5; }
+
+        .rev-letter {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--rule);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink-3);
+            flex-shrink: 0;
+        }
+
+        .rev-letter.is-lie    { background: var(--c5); color: white; }
+        .rev-letter.my-vote   { background: var(--c2); color: white; }
+        .rev-letter.got-it    { background: var(--c1); color: white; }
+
+        .rev-text { flex: 1; font-size: 12.5px; color: var(--ink); line-height: 1.4; }
+        .reveal-row.is-lie .rev-text { color: var(--c5); }
+
+        .rev-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 3px;
+            padding: 2px 6px;
+            flex-shrink: 0;
+        }
+
+        .rev-tag.lie     { background: var(--c5); color: white; }
+        .rev-tag.my-pick { background: var(--c2); color: white; }
+
+        .result-banner {
+            background: white;
+            border: 1px solid var(--rule);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .result-banner.correct { background: #f0faf5; border-color: var(--c1); }
+        .result-banner.wrong   { background: #fff5f5; border-color: var(--c5); }
+        .result-banner h3 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 400; margin-bottom: 3px; }
+        .result-banner p { font-size: 11.5px; color: var(--ink-3); }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-inner">
+        <span class="top-bar-label">Icebreaker</span>
+        <span class="top-bar-title">Two Truths &amp; a Lie</span>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- ── SUBMIT ── -->
+    <div class="phase active" id="phase-submit">
+        <div class="card">
+            <span class="card-label">Your name</span>
+            <input class="field-input" id="f-name" type="text" placeholder="First name" autocomplete="off" style="width:100%;">
+        </div>
+
+        <div class="card">
+            <span class="card-label">Your three statements</span>
+            <p style="font-size:11.5px;color:var(--ink-3);line-height:1.5;margin-bottom:12px;">Two are true. One is a lie. Make the lie believable.</p>
+
+            <div class="field-row">
+                <div class="field-letter" id="lbl-a">A</div>
+                <input class="field-input" id="f-a" type="text" placeholder="Statement A">
+            </div>
+            <div class="field-row">
+                <div class="field-letter" id="lbl-b">B</div>
+                <input class="field-input" id="f-b" type="text" placeholder="Statement B">
+            </div>
+            <div class="field-row">
+                <div class="field-letter" id="lbl-c">C</div>
+                <input class="field-input" id="f-c" type="text" placeholder="Statement C">
+            </div>
+
+            <p style="font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-top:14px;margin-bottom:8px;">Which is the lie?</p>
+            <div class="lie-row">
+                <button class="lie-btn" id="lie-a" onclick="pickLie('a')">A</button>
+                <button class="lie-btn" id="lie-b" onclick="pickLie('b')">B</button>
+                <button class="lie-btn" id="lie-c" onclick="pickLie('c')">C</button>
+            </div>
+        </div>
+
+        <div class="card" style="padding:12px 14px;">
+            <span class="card-label">Photo <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;color:var(--ink-3);">(optional — helps the group put a face to your statements)</span></span>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div id="photo-preview" style="width:52px;height:52px;border-radius:50%;background:var(--rule);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="#94A3B5" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#94A3B5" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div>
+                    <label style="display:inline-block;padding:8px 14px;border:1.5px solid var(--rule);border-radius:5px;font-size:11.5px;font-weight:600;color:var(--ink-2);cursor:pointer;-webkit-tap-highlight-color:transparent;">
+                        Take a selfie
+                        <input type="file" accept="image/*" capture="user" id="photo-input" style="display:none;" onchange="handlePhoto(this)">
+                    </label>
+                    <span id="photo-clear" onclick="clearPhoto()" style="display:none;font-size:11px;color:var(--ink-3);cursor:pointer;margin-left:10px;text-decoration:underline;">Remove</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="doSubmit()" disabled>Submit statements</button>
+    </div>
+
+    <!-- ── WAITING ── -->
+    <div class="phase" id="phase-waiting">
+        <div class="check-card">
+            <div class="check-icon">
+                <svg viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>You're in.</h3>
+            <p>The facilitator will call your name when it's your turn.</p>
+        </div>
+        <div class="card">
+            <span class="card-label">Also submitted</span>
+            <div class="chips" id="other-names">
+                <span style="font-size:11.5px;color:var(--ink-3);">No one else yet.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── YOUR TURN ── -->
+    <div class="phase" id="phase-your-turn">
+        <div class="your-turn-banner">
+            <h2>It's your turn.</h2>
+            <p>Read your statements aloud — in any order.</p>
+        </div>
+        <div class="stmt-ref-list" id="your-stmts"></div>
+    </div>
+
+    <!-- ── VOTING ── -->
+    <div class="phase" id="phase-voting">
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;" id="voting-head"></p>
+        <div id="voting-cards"></div>
+        <p style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:6px;" id="voting-footer"></p>
+    </div>
+
+    <!-- ── REVEALED ── -->
+    <div class="phase" id="phase-revealed">
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;" id="revealed-head"></p>
+        <div class="reveal-list" id="reveal-stmts"></div>
+        <div class="result-banner" id="result-banner" style="margin-top:10px;display:none;"></div>
+    </div>
+
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey:            "AIzaSyDDln74E24sGerHQCgpL7kSsthpF-H1u8U",
+        authDomain:        "chamber-workshop-1.firebaseapp.com",
+        databaseURL:       "https://chamber-workshop-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId:         "chamber-workshop-1",
+        storageBucket:     "chamber-workshop-1.firebasestorage.app",
+        messagingSenderId: "423187424700",
+        appId:             "1:423187424700:web:842d4922ce6c4fd71777b9"
+    };
+
+    let db = null;
+    try { firebase.initializeApp(firebaseConfig); db = firebase.database(); }
+    catch(e) { console.warn('Firebase error:', e.message); }
+
+    const session = new URLSearchParams(location.search).get('session')
+                  || new Date().toISOString().split('T')[0];
+
+    function getPid() {
+        let id = localStorage.getItem('vc_pid');
+        if (!id) { id = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); localStorage.setItem('vc_pid', id); }
+        return id;
+    }
+    const pid = getPid();
+    const ibRef = path => db ? db.ref('icebreaker/' + session + (path ? '/' + path : '')) : null;
+
+    // ── State ──────────────────────────────────────────────────────────────────
+    let photoData   = null;
+    let myEntry     = null;
+    let allEntries  = {};
+    let ibState     = {};
+    let allVotes    = {};
+    let selectedLie = null;
+
+    // ── Form ───────────────────────────────────────────────────────────────────
+    ['f-name','f-a','f-b','f-c'].forEach(id => {
+        document.getElementById(id).addEventListener('input', validateForm);
+    });
+
+    function validateForm() {
+        const ok = ['f-name','f-a','f-b','f-c'].every(id => document.getElementById(id).value.trim())
+                   && selectedLie;
+        document.getElementById('submit-btn').disabled = !ok;
+    }
+
+    function pickLie(k) {
+        selectedLie = k;
+        ['a','b','c'].forEach(l => {
+            document.getElementById('lie-' + l).classList.toggle('sel', l === k);
+            document.getElementById('lbl-' + l).classList.toggle('marked', l === k);
+        });
+        validateForm();
+    }
+
+    function handlePhoto(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 120;
+                const ctx = canvas.getContext('2d');
+                const min = Math.min(img.width, img.height);
+                const sx  = (img.width  - min) / 2;
+                const sy  = (img.height - min) / 2;
+                ctx.drawImage(img, sx, sy, min, min, 0, 0, 120, 120);
+                photoData = canvas.toDataURL('image/jpeg', 0.75);
+                document.getElementById('photo-preview').innerHTML =
+                    `<img src="${photoData}" style="width:100%;height:100%;object-fit:cover;">`;
+                document.getElementById('photo-clear').style.display = 'inline';
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function clearPhoto() {
+        photoData = null;
+        document.getElementById('photo-preview').innerHTML =
+            `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="#94A3B5" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#94A3B5" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+        document.getElementById('photo-clear').style.display = 'none';
+        document.getElementById('photo-input').value = '';
+    }
+
+    function doSubmit() {
+        const entry = {
+            name: document.getElementById('f-name').value.trim(),
+            a:    document.getElementById('f-a').value.trim(),
+            b:    document.getElementById('f-b').value.trim(),
+            c:    document.getElementById('f-c').value.trim(),
+            lie:  selectedLie
+        };
+        if (photoData) entry.photo = photoData;
+        if (!db) return;
+        ibRef('entries/' + pid).set(entry);
+    }
+
+    function castVote(choice) {
+        if (!db || !ibState.active) return;
+        ibRef('votes/' + ibState.active + '/' + pid).set(choice);
+    }
+
+    // ── Firebase listeners ─────────────────────────────────────────────────────
+    if (db) {
+        ibRef('entries/' + pid).on('value', snap => { myEntry = snap.val(); render(); });
+        ibRef('entries').on('value', snap => { allEntries = snap.val() || {}; render(); });
+        ibRef('state').on('value', snap => { ibState = snap.val() || {}; render(); });
+        ibRef('votes').on('value', snap => { allVotes = snap.val() || {}; render(); });
+    }
+
+    // ── Render ──────────────────────────────────────────────────────────────────
+    function showPhase(id) {
+        document.querySelectorAll('.phase').forEach(el => el.classList.remove('active'));
+        document.getElementById('phase-' + id).classList.add('active');
+    }
+
+    function render() {
+        if (!myEntry) { showPhase('submit'); return; }
+
+        const { active, revealed } = ibState;
+
+        if (!active)            { showPhase('waiting');   renderWaiting();      return; }
+        if (active === pid)     { showPhase('your-turn'); renderYourTurn();     return; }
+        if (revealed)           { showPhase('revealed');  renderRevealed(active); return; }
+        showPhase('voting'); renderVoting(active);
+    }
+
+    function renderWaiting() {
+        const others = Object.entries(allEntries).filter(([id]) => id !== pid).map(([,e]) => e.name);
+        const el = document.getElementById('other-names');
+        el.innerHTML = others.length
+            ? others.map(n => `<span class="chip">${n}</span>`).join('')
+            : '<span style="font-size:11.5px;color:var(--ink-3);">No one else yet.</span>';
+    }
+
+    function renderYourTurn() {
+        document.getElementById('your-stmts').innerHTML = ['a','b','c'].map(k => `
+            <div class="stmt-ref-row">
+                <div class="ref-letter">${k.toUpperCase()}</div>
+                <div class="ref-text">${myEntry[k]}</div>
+                ${k === myEntry.lie ? '<span class="lie-tag">Lie</span>' : ''}
+            </div>
+        `).join('');
+    }
+
+    function renderVoting(active) {
+        const entry = allEntries[active];
+        if (!entry) return;
+
+        const votes = (allVotes[active]) || {};
+        const myVote = votes[pid] || null;
+        const total = Object.keys(votes).length;
+
+        const avatarHtml = entry.photo
+            ? `<img src="${entry.photo}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;flex-shrink:0;" alt="">`
+            : `<div style="width:32px;height:32px;border-radius:50%;background:var(--rule);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-3);flex-shrink:0;">${entry.name.charAt(0)}</div>`;
+        document.getElementById(‘voting-head’).innerHTML =
+            `<span style="display:flex;align-items:center;gap:8px;">${avatarHtml}<span>${entry.name}’s statements — which is the lie?</span></span>`;
+
+        document.getElementById('voting-cards').innerHTML = ['a','b','c'].map(k => `
+            <div class="vote-card ${myVote === k ? 'sel' : ''}">
+                <div class="vote-letter ${myVote === k ? 'sel' : ''}">${k.toUpperCase()}</div>
+                <div class="vote-text">${entry[k]}</div>
+                <button class="vote-btn ${myVote === k ? 'sel' : ''}" onclick="castVote('${k}')">
+                    ${myVote === k ? 'Voted' : 'This one'}
+                </button>
+            </div>
+        `).join('');
+
+        document.getElementById('voting-footer').textContent =
+            total + (total === 1 ? ' person has' : ' people have') + ' voted';
+    }
+
+    function renderRevealed(active) {
+        const entry = allEntries[active];
+        if (!entry) return;
+
+        const votes = (allVotes[active]) || {};
+        const myVote = votes[pid] || null;
+        const lie = entry.lie;
+
+        document.getElementById('revealed-head').textContent =
+            entry.name + '’s statements — the lie was ' + lie.toUpperCase();
+
+        document.getElementById('reveal-stmts').innerHTML = ['a','b','c'].map(k => {
+            const isLie   = k === lie;
+            const isMyVote = k === myVote;
+            let letterCls = 'rev-letter';
+            if (isLie && isMyVote) letterCls += ' got-it';
+            else if (isLie)        letterCls += ' is-lie';
+            else if (isMyVote)     letterCls += ' my-vote';
+
+            return `
+                <div class="reveal-row ${isLie ? 'is-lie' : ''}">
+                    <div class="${letterCls}">${k.toUpperCase()}</div>
+                    <div class="rev-text">${entry[k]}</div>
+                    ${isLie ? '<span class="rev-tag lie">Lie</span>' : ''}
+                    ${isMyVote && !isLie ? '<span class="rev-tag my-pick">My vote</span>' : ''}
+                </div>
+            `;
+        }).join('');
+
+        const banner = document.getElementById('result-banner');
+        if (!myVote) { banner.style.display = 'none'; return; }
+
+        const correct = myVote === lie;
+        banner.style.display = 'block';
+        banner.className = 'result-banner ' + (correct ? 'correct' : 'wrong');
+        banner.innerHTML = `
+            <h3>${correct ? 'You got it!' : 'Not quite.'}</h3>
+            <p>You voted ${myVote.toUpperCase()}. The lie was ${lie.toUpperCase()}.</p>
+        `;
+    }
+</script>
+</body>
+</html>

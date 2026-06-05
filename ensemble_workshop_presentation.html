@@ -250,13 +250,64 @@
 
 <!-- ─── ICEBREAKER SHARE ─── -->
 <section data-background-color="#1C2733">
-    <h2 style="color:white; font-size:1.7em; font-weight:400; margin-bottom:14px;">Your turn.</h2>
-    <p style="color:rgba(255,255,255,0.45); font-size:0.62em; font-family:'Inter',sans-serif; margin-bottom:44px;">Share your three statements — the group will guess the lie.</p>
-    <div style="display:inline-block; border:1px solid rgba(255,255,255,0.1); border-radius:5px; padding:11px 26px; margin-bottom:40px;">
-        <p style="color:rgba(255,255,255,0.55); font-size:0.48em; font-family:'Inter',sans-serif; margin:0;">After each person: vote first, then they reveal</p>
+
+    <!-- Names bar (always visible) -->
+    <div id="ib-names-bar" style="display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-bottom:14px;min-height:34px;">
+        <span id="ib-names-prompt" style="font-size:0.36em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.18);letter-spacing:2px;text-transform:uppercase;">Waiting for submissions…</span>
     </div>
-    <p style="color:rgba(255,255,255,0.18); font-size:0.38em; font-family:'Inter',sans-serif; letter-spacing:2px; text-transform:uppercase;">10 people &nbsp;·&nbsp; ~2 min each</p>
-    <aside class="notes">Keep this slide up the whole time people are sharing. Prompt the group to vote before the person reveals. Keep energy high. React genuinely. When the last person is done, move straight to the next slide.</aside>
+
+    <!-- No active state -->
+    <div id="ib-no-active" style="padding-top:50px;text-align:center;">
+        <h2 style="color:white;font-size:1.7em;font-weight:400;margin-bottom:12px;">Your turn.</h2>
+        <p style="color:rgba(255,255,255,0.35);font-size:0.52em;font-family:Inter,sans-serif;margin-bottom:8px;">
+            Go to <strong style="color:rgba(255,255,255,0.7);">ensemble_icebreaker.html</strong> — enter your statements
+        </p>
+        <p id="ib-click-hint" style="font-size:0.37em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.16);display:none;">Click a name above to start voting</p>
+    </div>
+
+    <!-- Active question -->
+    <div id="ib-active" style="display:none;">
+
+        <!-- Avatar + name + live dot -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+            <div id="ib-avatar" style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,0.1);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div>
+            <h2 id="ib-active-name" style="color:white;font-size:1.0em;font-weight:400;margin:0;flex:1;text-align:left;"></h2>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+                <span id="ib-vote-count" style="font-size:0.37em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.3);"></span>
+                <div style="width:6px;height:6px;border-radius:50%;background:#2A6049;animation:pulse 2s infinite;"></div>
+            </div>
+        </div>
+
+        <!-- Statement rows -->
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:16px;">
+            <div id="ib-row-a" style="display:flex;align-items:center;gap:10px;transition:opacity 0.4s;">
+                <div class="ib-ltr" style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;font-size:0.41em;font-family:Inter,sans-serif;font-weight:700;color:rgba(255,255,255,0.75);flex-shrink:0;transition:background 0.3s,color 0.3s;">A</div>
+                <div id="ib-stmt-a" style="font-size:0.54em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.82);flex:1;line-height:1.45;text-align:left;"></div>
+                <div style="width:130px;height:12px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;flex-shrink:0;"><div id="ib-fill-a" style="height:100%;background:rgba(255,255,255,0.38);width:0;transition:width 0.45s;"></div></div>
+                <div id="ib-pct-a" style="width:30px;font-size:0.36em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.28);text-align:right;flex-shrink:0;"></div>
+            </div>
+            <div id="ib-row-b" style="display:flex;align-items:center;gap:10px;transition:opacity 0.4s;">
+                <div class="ib-ltr" style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;font-size:0.41em;font-family:Inter,sans-serif;font-weight:700;color:rgba(255,255,255,0.75);flex-shrink:0;transition:background 0.3s,color 0.3s;">B</div>
+                <div id="ib-stmt-b" style="font-size:0.54em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.82);flex:1;line-height:1.45;text-align:left;"></div>
+                <div style="width:130px;height:12px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;flex-shrink:0;"><div id="ib-fill-b" style="height:100%;background:rgba(255,255,255,0.38);width:0;transition:width 0.45s;"></div></div>
+                <div id="ib-pct-b" style="width:30px;font-size:0.36em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.28);text-align:right;flex-shrink:0;"></div>
+            </div>
+            <div id="ib-row-c" style="display:flex;align-items:center;gap:10px;transition:opacity 0.4s;">
+                <div class="ib-ltr" style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;font-size:0.41em;font-family:Inter,sans-serif;font-weight:700;color:rgba(255,255,255,0.75);flex-shrink:0;transition:background 0.3s,color 0.3s;">C</div>
+                <div id="ib-stmt-c" style="font-size:0.54em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.82);flex:1;line-height:1.45;text-align:left;"></div>
+                <div style="width:130px;height:12px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;flex-shrink:0;"><div id="ib-fill-c" style="height:100%;background:rgba(255,255,255,0.38);width:0;transition:width 0.45s;"></div></div>
+                <div id="ib-pct-c" style="width:30px;font-size:0.36em;font-family:Inter,sans-serif;color:rgba(255,255,255,0.28);text-align:right;flex-shrink:0;"></div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div style="display:flex;justify-content:flex-end;align-items:center;gap:10px;">
+            <span id="ib-lie-tag" style="display:none;font-size:0.37em;font-family:Inter,sans-serif;font-weight:600;color:rgba(255,255,255,0.45);"></span>
+            <button id="ib-reveal-btn" onclick="ibReveal();event.stopPropagation();" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.42);font-family:Inter,sans-serif;font-size:0.37em;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:4px;cursor:pointer;">Reveal</button>
+        </div>
+    </div>
+
+    <aside class="notes">Participants go to ensemble_icebreaker.html — they enter name, optional photo, and 3 statements. Their name appears in the bar above. Click a name to activate voting. After the group votes, click Reveal to show which statement was the lie. Then click the next name.</aside>
 </section>
 
 
@@ -611,8 +662,117 @@
         });
     }
 
+    // ── ICEBREAKER SLIDE ─────────────────────────────────────────────────────
+    let _ibEntries = {}, _ibState = {}, _ibVotes = {};
+    const _ibRef = path => _db ? _db.ref('icebreaker/' + _session + (path ? '/' + path : '')) : null;
+
+    function ibActivate(id) {
+        const ref = _ibRef('state');
+        if (ref) ref.set({ active: id, revealed: false });
+    }
+
+    function ibReveal() {
+        const ref = _ibRef('state/revealed');
+        if (ref && _ibState.active) ref.set(true);
+    }
+
+    function ibRender() {
+        const namesBar = document.getElementById('ib-names-bar');
+        const noActive = document.getElementById('ib-no-active');
+        const activeEl = document.getElementById('ib-active');
+        if (!namesBar) return;
+
+        const entries  = Object.entries(_ibEntries);
+        const active   = _ibState.active;
+        const revealed = _ibState.revealed;
+
+        // Rebuild names bar
+        const prompt = document.getElementById('ib-names-prompt');
+        if (entries.length === 0) {
+            if (prompt) prompt.style.display = 'inline';
+        } else {
+            if (prompt) prompt.style.display = 'none';
+            namesBar.innerHTML = entries.map(([id, e]) => {
+                const on = id === active;
+                const av = e.photo
+                    ? `<img src="${e.photo}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;" alt="">`
+                    : `<div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);">${e.name.charAt(0)}</div>`;
+                return `<button onclick="ibActivate('${id}');event.stopPropagation();" style="display:flex;align-items:center;gap:5px;padding:3px 9px 3px 4px;border:1px solid ${on?'rgba(255,255,255,0.32)':'rgba(255,255,255,0.09)'};border-radius:20px;background:${on?'rgba(255,255,255,0.1)':'transparent'};cursor:pointer;font-family:Inter,sans-serif;font-size:0.38em;font-weight:${on?'600':'400'};color:${on?'white':'rgba(255,255,255,0.42)'};">${av}${e.name}</button>`;
+            }).join('');
+        }
+
+        const hint = document.getElementById('ib-click-hint');
+
+        if (!active) {
+            if (noActive) noActive.style.display = 'block';
+            if (activeEl) activeEl.style.display = 'none';
+            if (hint) hint.style.display = entries.length > 0 ? 'block' : 'none';
+            return;
+        }
+
+        if (noActive) noActive.style.display = 'none';
+        if (activeEl) activeEl.style.display = 'block';
+
+        const e = _ibEntries[active];
+        if (!e) return;
+
+        // Avatar
+        const av = document.getElementById('ib-avatar');
+        if (av) av.innerHTML = e.photo
+            ? `<img src="${e.photo}" style="width:100%;height:100%;object-fit:cover;" alt="">`
+            : `<span style="font-size:18px;font-weight:700;color:rgba(255,255,255,0.55);">${e.name.charAt(0)}</span>`;
+
+        // Name
+        const nm = document.getElementById('ib-active-name');
+        if (nm) nm.textContent = e.name + '’s statements';
+
+        // Votes
+        const votes  = (_ibVotes[active]) || {};
+        const total  = Object.keys(votes).length;
+        const counts = { a:0, b:0, c:0 };
+        Object.values(votes).forEach(v => { if (counts[v] !== undefined) counts[v]++; });
+
+        const vc = document.getElementById('ib-vote-count');
+        if (vc) vc.textContent = total + (total === 1 ? ' vote' : ' votes');
+
+        ['a','b','c'].forEach(k => {
+            const row  = document.getElementById('ib-row-' + k);
+            const ltr  = row && row.querySelector('.ib-ltr');
+            const stmt = document.getElementById('ib-stmt-' + k);
+            const fill = document.getElementById('ib-fill-' + k);
+            const pct  = document.getElementById('ib-pct-' + k);
+
+            if (stmt) stmt.textContent = e[k];
+            const p = total > 0 ? (counts[k] / total) * 100 : 0;
+            if (fill) fill.style.width = p + '%';
+            if (pct)  pct.textContent  = total > 0 ? Math.round(p) + '%' : '';
+
+            const isLie = k === e.lie;
+            if (revealed) {
+                if (row) row.style.opacity = isLie ? '1' : '0.38';
+                if (ltr && isLie) { ltr.style.background='#A3291F'; ltr.style.color='white'; }
+            } else {
+                if (row) row.style.opacity = '1';
+                if (ltr) { ltr.style.background='rgba(255,255,255,0.13)'; ltr.style.color='rgba(255,255,255,0.75)'; }
+            }
+        });
+
+        const btn = document.getElementById('ib-reveal-btn');
+        const tag = document.getElementById('ib-lie-tag');
+        if (btn) btn.style.display = revealed ? 'none' : 'inline-block';
+        if (tag) { tag.style.display = revealed ? 'inline' : 'none'; if (revealed) tag.textContent = 'The lie was ' + e.lie.toUpperCase(); }
+    }
+
+    function ibInit() {
+        if (!_db) return;
+        _ibRef('entries').on('value', s => { _ibEntries = s.val() || {}; ibRender(); });
+        _ibRef('state').on('value',   s => { _ibState   = s.val() || {}; ibRender(); });
+        _ibRef('votes').on('value',   s => { _ibVotes   = s.val() || {}; ibRender(); });
+    }
+
     buildResults();
     initResults();
+    ibInit();
 
     Reveal.initialize({
         hash: true,
