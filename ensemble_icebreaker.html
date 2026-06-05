@@ -649,8 +649,8 @@
         const myVote = votes[pid] || null;
         const lie = entry.lie;
 
-        document.getElementById('revealed-head').textContent =
-            entry.name + '’s statements — the lie was ' + lie.toUpperCase();
+        document.getElementById(‘revealed-head’).textContent =
+            `${entry.name}’s statements — the lie was ${lie.toUpperCase()}`;
 
         document.getElementById('reveal-stmts').innerHTML = ['a','b','c'].map(k => {
             const isLie   = k === lie;
