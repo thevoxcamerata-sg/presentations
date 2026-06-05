@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reset.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <style>
         :root {
             --ink:    #1C2733;
@@ -198,6 +200,8 @@
 
         /* Thin rule */
         .rule { width: 40px; height: 1px; margin: 0 auto; }
+
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
     </style>
 </head>
 <body>
@@ -389,6 +393,31 @@
 </section>
 
 
+<!-- ─── LIVE RESULTS ─── -->
+<section data-background-color="#FDFAF6">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h2 style="font-size:1.05em;margin:0;">Live results</h2>
+        <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:7px;height:7px;border-radius:50%;background:var(--c1);animation:pulse 2s infinite;flex-shrink:0;"></div>
+            <span id="pcount" style="font-size:0.38em;font-family:'Inter',sans-serif;color:var(--ink-3);">waiting for votes</span>
+        </div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:flex-end;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:4px;"><div style="width:9px;height:9px;border-radius:2px;background:#2A6049;flex-shrink:0;"></div><span style="font-size:0.35em;font-family:'Inter',sans-serif;color:var(--ink-3);">Collective</span></div>
+        <div style="display:flex;align-items:center;gap:4px;"><div style="width:9px;height:9px;border-radius:2px;background:#1E4B7A;flex-shrink:0;"></div><span style="font-size:0.35em;font-family:'Inter',sans-serif;color:var(--ink-3);">Consultative</span></div>
+        <div style="display:flex;align-items:center;gap:4px;"><div style="width:9px;height:9px;border-radius:2px;background:#B85A1A;flex-shrink:0;"></div><span style="font-size:0.35em;font-family:'Inter',sans-serif;color:var(--ink-3);">Delegated</span></div>
+        <div style="display:flex;align-items:center;gap:4px;"><div style="width:9px;height:9px;border-radius:2px;background:#A3291F;flex-shrink:0;"></div><span style="font-size:0.35em;font-family:'Inter',sans-serif;color:var(--ink-3);">Director-led</span></div>
+    </div>
+    <div id="results-list" style="display:flex;flex-direction:column;gap:4px;"></div>
+    <aside class="notes">
+        Participants go to: ensemble_vote.html?session=YOURCODE
+        Add the same ?session=YOURCODE to this presentation URL.
+        Both default to today's date as the session ID if no ?session= is set.
+        Results update live as participants vote.
+    </aside>
+</section>
+
+
 <!-- ─── ACTIVITY 3: SCENARIO TESTING ─── -->
 <section data-background-color="#FDFAF6">
     <div class="badge" style="color:var(--c3); border-color:var(--c3);">Activity 3 &nbsp;·&nbsp; 20 min</div>
@@ -491,6 +520,100 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.0/dist/reveal.js"></script>
 <script>
+    // ── FIREBASE CONFIG ──────────────────────────────────────────────────────
+    // Replace these placeholder values with your Firebase project config.
+    // 1. https://console.firebase.google.com → new project → Add web app → copy config
+    // 2. Realtime Database → Rules → set to: { "rules": { ".read": true, ".write": true } }
+    const firebaseConfig = {
+        apiKey:            "AIzaSyDDln74E24sGerHQCgpL7kSsthpF-H1u8U",
+        authDomain:        "chamber-workshop-1.firebaseapp.com",
+        databaseURL:       "https://chamber-workshop-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId:         "chamber-workshop-1",
+        storageBucket:     "chamber-workshop-1.firebasestorage.app",
+        messagingSenderId: "423187424700",
+        appId:             "1:423187424700:web:842d4922ce6c4fd71777b9"
+    };
+
+    let _db = null;
+    try {
+        if (firebaseConfig.apiKey !== "REPLACE") {
+            firebase.initializeApp(firebaseConfig);
+            _db = firebase.database();
+        }
+    } catch(e) { console.warn('Firebase not configured:', e.message); }
+
+    // Session ID: add ?session=yourcode to both this URL and the vote page URL.
+    // Defaults to today's date so each workshop day starts fresh automatically.
+    const _session = new URLSearchParams(location.search).get('session')
+                   || new Date().toISOString().split('T')[0];
+
+    // ── RESULTS SLIDE ─────────────────────────────────────────────────────────
+    const _DECS = [
+        { key: 'repertoire',     name: 'Repertoire' },
+        { key: 'prog_order',     name: 'Programme order' },
+        { key: 'interpretation', name: 'Interpretation' },
+        { key: 'roles',          name: 'Ensemble roles' },
+        { key: 'rehearsal',      name: 'Rehearsal priorities' },
+        { key: 'scheduling',     name: 'Scheduling' },
+        { key: 'format',         name: 'Performance format' },
+        { key: 'comms',          name: 'Communication norms' },
+        { key: 'membership',     name: 'Membership' },
+        { key: 'docs',           name: 'Documentation' },
+    ];
+    const _CATS   = ['collective','consultative','delegated','director_led'];
+    const _COLORS = { collective:'#2A6049', consultative:'#1E4B7A', delegated:'#B85A1A', director_led:'#A3291F' };
+
+    function buildResults() {
+        const list = document.getElementById('results-list');
+        if (!list) return;
+        _DECS.forEach(d => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display:flex;align-items:center;gap:8px;';
+            row.innerHTML = `
+                <div style="width:175px;font-size:0.48em;font-family:Inter,sans-serif;font-weight:600;color:#1C2733;text-align:right;line-height:1.3;flex-shrink:0;">${d.name}</div>
+                <div id="bar-${d.key}" style="flex:1;height:22px;background:#E0D8CF;border-radius:4px;overflow:hidden;display:flex;"></div>
+                <div id="cnt-${d.key}" style="width:60px;font-size:0.38em;font-family:Inter,sans-serif;color:#94A3B5;text-align:left;"></div>
+            `;
+            list.appendChild(row);
+        });
+    }
+
+    function initResults() {
+        if (!_db) return;
+        _db.ref('votes/' + _session).on('value', snap => {
+            const data = snap.val() || {};
+            const n = Object.keys(data).length;
+            const pEl = document.getElementById('pcount');
+            if (pEl) pEl.textContent = n + (n === 1 ? ' participant' : ' participants');
+
+            const agg = {};
+            _DECS.forEach(d => { agg[d.key] = { collective:0, consultative:0, delegated:0, director_led:0 }; });
+            Object.values(data).forEach(p => {
+                Object.entries(p).forEach(([k, v]) => {
+                    if (agg[k] && agg[k][v] !== undefined) agg[k][v]++;
+                });
+            });
+
+            _DECS.forEach(d => {
+                const bar = document.getElementById('bar-' + d.key);
+                const cnt = document.getElementById('cnt-' + d.key);
+                if (!bar || !cnt) return;
+                const c   = agg[d.key];
+                const tot = _CATS.reduce((s, k) => s + c[k], 0);
+                if (tot === 0) { bar.innerHTML = ''; cnt.textContent = ''; return; }
+                bar.innerHTML = _CATS.map(k => {
+                    const pct = (c[k] / tot) * 100;
+                    return pct < 0.5 ? '' :
+                        `<div style="width:${pct}%;background:${_COLORS[k]};height:100%;transition:width 0.5s ease;" title="${k}: ${c[k]}"></div>`;
+                }).join('');
+                cnt.textContent = tot + (tot === 1 ? ' vote' : ' votes');
+            });
+        });
+    }
+
+    buildResults();
+    initResults();
+
     Reveal.initialize({
         hash: true,
         controls: true,
