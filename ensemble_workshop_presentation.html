@@ -425,7 +425,9 @@
     <div id="values-display" style="display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;min-height:440px;">
         <span style="font-size:0.42em;font-family:'Inter',sans-serif;color:var(--ink-3);">Values appear here as participants submit.</span>
     </div>
-    <aside class="notes">Switch to this slide at the start of Step 1. Values appear live as participants submit at ensemble_values.html. Use this view for the Step 3 plenary — values with a number badge appeared more than once. Those are your consensus signals.</aside>
+    <button id="val-reset-btn" onclick="valReset(event)" style="position:absolute;bottom:14px;left:14px;background:transparent;border:none;color:rgba(28,39,51,0.2);font-family:'Inter',sans-serif;font-size:0.32em;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:4px 0;" data-armed="0">Reset session</button>
+
+    <aside class="notes">Switch to this slide at the start of Step 1. Values appear live as participants submit at ensemble_values.html. Use this view for the Step 3 plenary — values with a number badge appeared more than once. Those are your consensus signals. Reset button bottom-left clears all submitted values.</aside>
 </section>
 
 
@@ -821,6 +823,30 @@
     }
 
     // ── VALUES SLIDE ──────────────────────────────────────────────────────────
+    let _valResetTimer = null;
+
+    function valReset(e) {
+        e.stopPropagation();
+        const btn = document.getElementById('val-reset-btn');
+        if (!btn) return;
+        if (btn.dataset.armed === '1') {
+            clearTimeout(_valResetTimer);
+            btn.dataset.armed = '0';
+            btn.style.color = 'rgba(28,39,51,0.2)';
+            btn.textContent = 'Reset session';
+            if (_db) _db.ref('values/' + _session).remove();
+        } else {
+            btn.dataset.armed = '1';
+            btn.style.color = '#A3291F';
+            btn.textContent = 'Click again to confirm';
+            _valResetTimer = setTimeout(() => {
+                btn.dataset.armed = '0';
+                btn.style.color = 'rgba(28,39,51,0.2)';
+                btn.textContent = 'Reset session';
+            }, 4000);
+        }
+    }
+
     function initValues() {
         if (!_db) return;
         _db.ref('values/' + _session).on('value', snap => {
