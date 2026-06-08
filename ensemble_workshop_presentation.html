@@ -410,6 +410,25 @@
 </section>
 
 
+<!-- ─── ACTIVITY 1: LIVE VALUES ─── -->
+<section data-background-color="#FDFAF6">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div>
+            <div class="badge" style="color:var(--c1);border-color:var(--c1);margin-bottom:6px;">Activity 1</div>
+            <h2 style="font-size:1.15em;margin:0;">Values</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;">
+            <span id="val-count" style="font-size:0.38em;font-family:'Inter',sans-serif;color:var(--ink-3);">waiting for submissions</span>
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--c1);animation:pulse 2s infinite;flex-shrink:0;"></div>
+        </div>
+    </div>
+    <div id="values-display" style="display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;min-height:440px;">
+        <span style="font-size:0.42em;font-family:'Inter',sans-serif;color:var(--ink-3);">Values appear here as participants submit.</span>
+    </div>
+    <aside class="notes">Switch to this slide at the start of Step 1. Values appear live as participants submit at ensemble_values.html. Use this view for the Step 3 plenary — values with a number badge appeared more than once. Those are your consensus signals.</aside>
+</section>
+
+
 <!-- ─── ACTIVITY 2: DECISION TYPES ─── -->
 <section data-background-color="#FDFAF6">
     <div class="badge" style="color:var(--c2); border-color:var(--c2);">Activity 2 &nbsp;·&nbsp; 15 min</div>
@@ -801,9 +820,51 @@
         _ibRef('votes').on('value',   s => { _ibVotes   = s.val() || {}; ibRender(); });
     }
 
+    // ── VALUES SLIDE ──────────────────────────────────────────────────────────
+    function initValues() {
+        if (!_db) return;
+        _db.ref('values/' + _session).on('value', snap => {
+            const data = snap.val() || {};
+            const all = [];
+            Object.values(data).forEach(entry => {
+                ['v1','v2','v3'].forEach(k => { if (entry[k]) all.push(entry[k].trim()); });
+            });
+
+            const freq = {};
+            all.forEach(v => {
+                const key = v.toLowerCase();
+                if (!freq[key]) freq[key] = { display: v, count: 0 };
+                freq[key].count++;
+            });
+
+            const sorted = Object.values(freq).sort((a, b) => b.count - a.count || a.display.localeCompare(b.display));
+            const people = Object.keys(data).length;
+
+            const countEl = document.getElementById('val-count');
+            if (countEl) countEl.textContent = all.length + ' values · ' + people + (people === 1 ? ' person' : ' people');
+
+            const el = document.getElementById('values-display');
+            if (!el) return;
+
+            if (sorted.length === 0) {
+                el.innerHTML = '<span style="font-size:0.42em;font-family:Inter,sans-serif;color:var(--ink-3);">Values appear here as participants submit.</span>';
+                return;
+            }
+
+            el.innerHTML = sorted.map(({ display, count }) => {
+                const prominent = count > 1;
+                const badge = prominent
+                    ? '<span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:var(--c1);color:white;font-size:0.6em;font-weight:700;padding:0 4px;margin-left:5px;">' + count + '</span>'
+                    : '';
+                return '<span style="display:inline-flex;align-items:center;background:' + (prominent ? '#f0faf5' : 'white') + ';border:' + (prominent ? '1.5px solid var(--c1)' : '1px solid var(--rule)') + ';border-radius:20px;padding:5px 13px;font-family:Inter,sans-serif;font-size:' + (prominent ? '0.52em' : '0.46em') + ';font-weight:' + (prominent ? '700' : '500') + ';color:var(--ink);white-space:nowrap;">' + display + badge + '</span>';
+            }).join('');
+        });
+    }
+
     buildResults();
     initResults();
     ibInit();
+    initValues();
 
     Reveal.initialize({
         hash: true,

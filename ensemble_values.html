@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Values Mapping — Ensemble Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+    <style>
+        :root {
+            --ink:   #1C2733;
+            --ink-2: #576473;
+            --ink-3: #94A3B5;
+            --paper: #FDFAF6;
+            --rule:  #E0D8CF;
+            --c1: #2A6049;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e8e2d9;
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        .top-bar { background: var(--ink); padding: 13px 16px 11px; }
+        .top-bar-inner { max-width: 600px; margin: 0 auto; }
+        .top-bar-label {
+            font-size: 10px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: rgba(255,255,255,0.3);
+            display: block; margin-bottom: 2px;
+        }
+        .top-bar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px; font-weight: 400; color: white;
+        }
+
+        .main { max-width: 600px; margin: 0 auto; padding: 16px 14px 90px; }
+
+        .phase { display: none; }
+        .phase.active { display: block; }
+
+        .card {
+            background: white; border: 1px solid var(--rule);
+            border-radius: 8px; padding: 16px; margin-bottom: 10px;
+        }
+
+        .card-label {
+            font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--ink-3);
+            display: block; margin-bottom: 8px;
+        }
+
+        .value-row {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+        }
+        .value-row:last-of-type { margin-bottom: 0; }
+
+        .value-num {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: var(--rule); display: flex; align-items: center;
+            justify-content: center; font-size: 10px; font-weight: 700;
+            color: var(--ink-3); flex-shrink: 0;
+        }
+
+        .value-input {
+            flex: 1; border: 1.5px solid var(--rule); border-radius: 5px;
+            padding: 9px 11px; font-family: 'Inter', sans-serif;
+            font-size: 13px; color: var(--ink); background: white;
+            outline: none; transition: border-color 0.15s;
+        }
+        .value-input:focus { border-color: var(--ink-3); }
+
+        .submit-btn {
+            width: 100%; padding: 13px; background: var(--ink);
+            border: none; border-radius: 7px; font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 700; color: white; cursor: pointer;
+            margin-top: 4px; -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s;
+        }
+        .submit-btn:disabled { opacity: 0.35; }
+
+        /* Done state */
+        .check-card {
+            background: white; border: 1px solid var(--rule); border-radius: 8px;
+            padding: 24px 16px; text-align: center; margin-bottom: 10px;
+        }
+        .check-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--c1);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .check-icon svg { width: 18px; height: 18px; }
+        .check-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 18px;
+            font-weight: 400; color: var(--ink); margin-bottom: 5px;
+        }
+        .check-card p { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+        .your-values {
+            background: white; border: 1px solid var(--rule);
+            border-radius: 8px; overflow: hidden;
+        }
+        .your-value-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 14px; border-bottom: 1px solid var(--rule);
+        }
+        .your-value-row:last-child { border-bottom: none; }
+        .your-value-num { font-size: 10px; font-weight: 700; color: var(--ink-3); flex-shrink: 0; }
+        .your-value-text { font-size: 13px; color: var(--ink); }
+
+        .edit-link {
+            display: block; text-align: center; margin-top: 12px;
+            font-size: 11.5px; color: var(--ink-3); cursor: pointer;
+            text-decoration: underline; -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="top-bar-inner">
+        <span class="top-bar-label">Activity 1</span>
+        <span class="top-bar-title">Values Mapping</span>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- SUBMIT -->
+    <div class="phase active" id="phase-submit">
+        <div class="card">
+            <span class="card-label">Your three values</span>
+            <p style="font-size:11.5px;color:var(--ink-3);line-height:1.5;margin-bottom:14px;">What do you want the ensemble's artistic leadership to reflect? Enter one value per line.</p>
+
+            <div class="value-row">
+                <div class="value-num">1</div>
+                <input class="value-input" id="v1" type="text" placeholder="e.g. Trust" autocomplete="off" autocapitalize="words">
+            </div>
+            <div class="value-row">
+                <div class="value-num">2</div>
+                <input class="value-input" id="v2" type="text" placeholder="e.g. Fairness" autocomplete="off" autocapitalize="words">
+            </div>
+            <div class="value-row">
+                <div class="value-num">3</div>
+                <input class="value-input" id="v3" type="text" placeholder="e.g. Artistic courage" autocomplete="off" autocapitalize="words">
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="doSubmit()" disabled>Submit values</button>
+    </div>
+
+    <!-- DONE -->
+    <div class="phase" id="phase-done">
+        <div class="check-card">
+            <div class="check-icon">
+                <svg viewBox="0 0 18 18" fill="none"><path d="M3 9l4 4 8-8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Values submitted.</h3>
+            <p>Watch the screen for results once everyone has shared.</p>
+        </div>
+
+        <div class="card" style="padding:14px;">
+            <span class="card-label">Your values</span>
+            <div class="your-values" id="your-values-list"></div>
+        </div>
+
+        <span class="edit-link" onclick="showEdit()">Edit my values</span>
+    </div>
+
+</div>
+
+<script>
+    const firebaseConfig = {
+        apiKey:            "AIzaSyDDln74E24sGerHQCgpL7kSsthpF-H1u8U",
+        authDomain:        "chamber-workshop-1.firebaseapp.com",
+        databaseURL:       "https://chamber-workshop-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId:         "chamber-workshop-1",
+        storageBucket:     "chamber-workshop-1.firebasestorage.app",
+        messagingSenderId: "423187424700",
+        appId:             "1:423187424700:web:842d4922ce6c4fd71777b9"
+    };
+
+    let db = null;
+    try { firebase.initializeApp(firebaseConfig); db = firebase.database(); }
+    catch(e) { console.warn('Firebase error:', e.message); }
+
+    const session = new URLSearchParams(location.search).get('session')
+                  || new Date().toISOString().split('T')[0];
+
+    function getPid() {
+        let id = localStorage.getItem('vc_pid');
+        if (!id) { id = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); localStorage.setItem('vc_pid', id); }
+        return id;
+    }
+    const pid = getPid();
+    const valRef = () => db ? db.ref('values/' + session + '/' + pid) : null;
+
+    // ── Form validation ────────────────────────────────────────────────────────
+    ['v1','v2','v3'].forEach(id => {
+        document.getElementById(id).addEventListener('input', validate);
+    });
+
+    function validate() {
+        const filled = ['v1','v2','v3'].filter(id => document.getElementById(id).value.trim()).length;
+        document.getElementById('submit-btn').disabled = filled < 1;
+        document.getElementById('submit-btn').textContent = filled < 3
+            ? 'Submit ' + filled + (filled === 1 ? ' value' : ' values')
+            : 'Submit values';
+    }
+
+    function doSubmit() {
+        const v1 = document.getElementById('v1').value.trim();
+        const v2 = document.getElementById('v2').value.trim();
+        const v3 = document.getElementById('v3').value.trim();
+        if (!v1 && !v2 && !v3) return;
+
+        const entry = {};
+        if (v1) entry.v1 = v1;
+        if (v2) entry.v2 = v2;
+        if (v3) entry.v3 = v3;
+
+        const ref = valRef();
+        if (ref) ref.set(entry);
+
+        showDone(entry);
+    }
+
+    function showDone(entry) {
+        document.querySelectorAll('.phase').forEach(el => el.classList.remove('active'));
+        document.getElementById('phase-done').classList.add('active');
+
+        const vals = [entry.v1, entry.v2, entry.v3].filter(Boolean);
+        document.getElementById('your-values-list').innerHTML = vals.map((v, i) => `
+            <div class="your-value-row">
+                <div class="your-value-num">${i + 1}</div>
+                <div class="your-value-text">${v}</div>
+            </div>
+        `).join('');
+    }
+
+    function showEdit() {
+        document.querySelectorAll('.phase').forEach(el => el.classList.remove('active'));
+        document.getElementById('phase-submit').classList.add('active');
+    }
+
+    // ── Restore previous submission ────────────────────────────────────────────
+    if (db) {
+        valRef().once('value', snap => {
+            const saved = snap.val();
+            if (!saved) return;
+            ['v1','v2','v3'].forEach(k => {
+                if (saved[k]) document.getElementById(k).value = saved[k];
+            });
+            validate();
+            showDone(saved);
+        });
+    }
+</script>
+</body>
+</html>
