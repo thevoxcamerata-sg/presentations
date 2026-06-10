@@ -15,6 +15,7 @@ An interactive workshop presentation for Chamber Singers (Vox Camerata) on ensem
 | `ensemble_workshop_presentation.html` | Main Reveal.js presentation (facilitator screen) |
 | `ensemble_vote.html` | Participant voting page for slide 11 (Sort the Decisions) |
 | `ensemble_icebreaker.html` | Participant page for the Two Truths & a Lie icebreaker |
+| `ensemble_values.html` | Participant page for Activity 1 (Values Mapping) |
 | `ensemble_participant_worksheet.html` | Printable/digital worksheet |
 
 ---
@@ -41,6 +42,14 @@ const firebaseConfig = {
 ---
 
 ## Firebase data structure
+
+### Values Mapping (Activity 1)
+```
+values/{session}/{deviceId}/
+  v1: string    — first value (required)
+  v2: string    — second value (optional)
+  v3: string    — third value (optional)
+```
 
 ### Sort the Decisions (slide 11)
 ```
@@ -85,15 +94,16 @@ Both the presentation and participant pages use `?session=` URL param to namespa
 7. Objectives
 8. Timeline
 9. Phase 1 Introduction
-10. Activity 1: Values Mapping
-11. Activity 2: Decision Types
-12. **Examples to Sort** ← static examples
-13. **Live Results** ← interactive vote results (Sort the Decisions)
-14. Activity 3: Scenario Testing
-15. Activity 4: Consensus Check
-16. Closing
-17. Closing Script
-18. Participant Worksheet
+10. Activity 1: Values Mapping *(instructions)*
+11. **Activity 1: Live Values** ← interactive values collection
+12. Activity 2: Decision Types
+13. **Examples to Sort** ← static examples
+14. **Live Results** ← interactive vote results (Sort the Decisions)
+15. Activity 3: Scenario Testing
+16. Activity 4: Consensus Check
+17. Closing
+18. Closing Script
+19. Participant Worksheet
 
 ---
 
@@ -110,7 +120,15 @@ Both the presentation and participant pages use `?session=` URL param to namespa
 - Click next name to continue
 - **Reset session** button: bottom-left corner of the slide, two-click safety (first click arms it red, second click within 4 seconds wipes all Firebase icebreaker data)
 
-### Live Results (slide 13)
+### Activity 1: Live Values (slide 11)
+
+- Participants go to `ensemble_values.html` and submit up to 3 values
+- Values appear live as chips on the presentation slide
+- Repeated values grow larger and show a count badge — instant consensus signal
+- Participants can edit their submission via "Edit my values" link
+- **Reset session** button: bottom-left corner, two-click safety, wipes all submitted values
+
+### Live Results (slide 14)
 - Participants go to `ensemble_vote.html` during the "Examples to Sort" activity
 - They assign each of 10 decisions to one of 4 categories (Collective, Consultative, Delegated, Director-led)
 - Results aggregate in real time as stacked bar charts on the Live Results slide
